@@ -1,898 +1,324 @@
 /* =========================================================
-   CALCULADORA SOLAR - CSS COMPLETO (sc5-*)
-   Diseñado para tu HTML (Blade)
-   - Hero premium
-   - Calculadora protagonista (consejos debajo en desktop)
-   - FAQ/SEO tipo acordeón
+   calculadora.css — TEMA CLARO SOLAR (1 fondo global, sin cortes)
+   - Fondo global continuo (verde + amarillo) en TODA la página
+   - Wizard: show/hide steps
+   - Opciones: hover/active
+   - Toast
+   - FAQ/details
+   - Accesibilidad: focus-visible + reduced motion
 ========================================================= */
 
-/* -------------------------
-   Variables + reset
-------------------------- */
+/* -----------------------------
+   0) Variables base
+----------------------------- */
 :root{
-  --bg:#0b1220;
-  --text:rgba(255,255,255,.92);
-  --muted:rgba(255,255,255,.70);
-  --line:rgba(255,255,255,.14);
+  --fg: #0f172a;                 /* slate-900 */
+  --muted: #475569;              /* slate-600 */
+  --muted2:#64748b;              /* slate-500 */
 
-  --radius:22px;
-  --shadow:0 24px 90px rgba(0,0,0,.55);
+  --border: rgba(15,23,42,.12);
+  --border2: rgba(15,23,42,.10);
 
-  --accent:#7c3aed;
-  --accent2:#22c55e;
-  --focus:rgba(124,58,237,.45);
+  --card: rgba(255,255,255,.92);
+  --card-soft: rgba(255,255,255,.86);
 
-  --glass:rgba(255,255,255,.07);
-  --glass2:rgba(255,255,255,.05);
-  --ink:rgba(0,0,0,.18);
-  --input:rgba(10,15,30,.62);
-}
-
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
-html{ scroll-behavior:smooth; }
-
-body{
-  margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-  color:var(--text);
-  background:
-    radial-gradient(1200px 600px at 18% 10%, rgba(124,58,237,.35), transparent 60%),
-    radial-gradient(900px 500px at 80% 25%, rgba(34,197,94,.20), transparent 55%),
-    radial-gradient(700px 400px at 55% 80%, rgba(59,130,246,.18), transparent 55%),
-    var(--bg);
-}
-
-a{ color:inherit; text-decoration:none; }
-strong{ color:rgba(255,255,255,.98); }
-hr{ border:none; height:1px; background: rgba(255,255,255,.12); margin: 18px 0; }
-
-/* -------------------------
-   Contenedor
-------------------------- */
-.sc5-shell{
-  max-width: 1320px; /* más ancho = calculadora más grande */
-  margin:0 auto;
-  padding: 0 16px;
-}
-@media(min-width:980px){
-  .sc5-shell{ padding:0 20px; }
-}
-
-/* -------------------------
-   Skip link
-------------------------- */
-.sc5-sr{
-  position:absolute;
-  left:-9999px; top:-9999px;
-  background:#111; color:#fff;
-  padding:10px 12px;
-  border-radius:12px;
-}
-.sc5-sr:focus{ left:16px; top:16px; z-index:999; }
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-.sc5-top{
-  position:sticky;
-  top:0;
-  z-index:80;
-  background: linear-gradient(180deg, rgba(11,18,32,.92), rgba(11,18,32,.70));
-  backdrop-filter: blur(12px);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.sc5-topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  padding:10px 0;
-}
-
-.sc5-brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-width:220px;
-}
-
-.sc5-logo{
-  width:46px; height:46px;
-  border-radius:16px;
-  display:grid; place-items:center;
-  background: linear-gradient(135deg, rgba(124,58,237,.45), rgba(34,197,94,.25));
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow: 0 12px 34px rgba(0,0,0,.28);
-}
-
-.sc5-brand-name{ font-weight:950; letter-spacing:.2px; line-height:1.1; }
-.sc5-brand-sub{ color:rgba(255,255,255,.68); font-size:.95rem; margin-top:2px; }
-
-.sc5-badges{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-
-.sc5-badge{
-  border:1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.05);
-  padding:7px 12px;
-  border-radius:999px;
-  font-size:.92rem;
-}
-.sc5-badge.soft{ background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.10); }
-
-@media(max-width:680px){
-  .sc5-badges{ display:none; }
-}
-
-/* =========================================================
-   PAGE
-========================================================= */
-.sc5-page{ padding: 14px 0 44px; }
-
-/* =========================================================
-   HERO (premium)
-========================================================= */
-.sc5-hero{
-  position:relative;
-  margin-top:14px;
-  border-radius: 28px;
-  border: 1px solid rgba(255,255,255,.14);
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-  box-shadow: var(--shadow);
-  overflow:hidden;
-}
-
-.sc5-hero::before{
-  content:"";
-  position:absolute;
-  inset:-140px -160px;
-  background:
-    radial-gradient(760px 520px at 18% 18%, rgba(124,58,237,.32), transparent 62%),
-    radial-gradient(680px 460px at 74% 28%, rgba(34,197,94,.18), transparent 62%),
-    radial-gradient(600px 420px at 62% 92%, rgba(59,130,246,.16), transparent 60%);
-  pointer-events:none;
-  filter: saturate(1.05);
-}
-
-.sc5-hero::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.22));
-  pointer-events:none;
-}
-
-.sc5-hero-grid{
-  position:relative;
-  z-index:1;
-  display:grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-  padding: 30px 0 56px;
-}
-
-@media(min-width:980px){
-  .sc5-hero-grid{
-    grid-template-columns: 1.15fr .85fr; /* tarjeta más grande */
-    align-items:center;
-    gap: 22px;
-    padding: 38px 0 68px;
-  }
-}
-
-.sc5-kicker{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.05);
-  padding: 8px 12px;
-  border-radius: 999px;
-  font-size:.9rem;
-  color: rgba(255,255,255,.86);
-  font-weight: 850;
-}
-
-.sc5-kicker-dot{
-  width:10px; height:10px; border-radius:999px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  box-shadow: 0 10px 22px rgba(124,58,237,.22);
-}
-
-.sc5-h1{
-  margin: 14px 0 10px;
-  font-size: clamp(2.15rem, 3.6vw, 3.35rem);
-  line-height: 1.03;
-  letter-spacing:-1.1px;
-}
-
-.sc5-grad{
-  background: linear-gradient(90deg, #8b5cf6, #22c55e);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-}
-
-.sc5-lead{
-  margin:0;
-  max-width: 62ch;
-  color: rgba(255,255,255,.80);
-  line-height: 1.78;
-  font-size: 1.07rem;
-}
-
-/* Bullets (si usas el hero mejorado) */
-.sc5-hero-bullets{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 18px;
-}
-@media(max-width:520px){
-  .sc5-hero-bullets{ grid-template-columns: 1fr; }
-}
-.sc5-bullet{
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  padding: 10px 12px;
-  border-radius: 999px;
-  font-weight: 850;
-  color: rgba(255,255,255,.90);
-}
-
-/* Pills (si sigues usando pills) */
-.sc5-pills{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:16px;
-}
-.sc5-pill{
-  border:1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.05);
-  padding: 8px 12px;
-  border-radius: 999px;
-  font-size:.92rem;
-}
-
-.sc5-hero-actions{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top: 18px;
-}
-
-.sc5-micro{
-  margin-top: 12px;
-  color: rgba(255,255,255,.62);
-  font-size:.95rem;
-}
-
-/* Hero card */
-.sc5-hero-card{
-  border-radius: 24px;
-  border:1px solid rgba(255,255,255,.14);
-  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
-  padding: 18px;
-  box-shadow: 0 22px 80px rgba(0,0,0,.30);
-  backdrop-filter: blur(10px);
-}
-@media(min-width:980px){
-  .sc5-hero-card{ padding: 20px; }
-}
-
-.sc5-card-title{
-  font-weight:950;
-  letter-spacing:-.2px;
-  margin-bottom: 12px;
-  font-size: 1.05rem;
-}
-
-/* Si usas el hero mejorado (chip y row) */
-.sc5-card-title-row{
-  display:flex;
-  align-items:center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-.sc5-chip{
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.18);
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: .9rem;
-  color: rgba(255,255,255,.86);
-  font-weight: 900;
-}
-
-.sc5-stats{
-  display:grid;
-  grid-template-columns: repeat(3,1fr);
-  gap:12px;
-  margin-bottom: 14px;
-}
-
-.sc5-stat{
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.18);
-  padding: 12px;
-}
-.sc5-stat-big{ font-weight:950; font-size:1.12rem; }
-.sc5-stat-sub{ color: rgba(255,255,255,.68); margin-top:2px; font-size:.92rem; }
-
-.sc5-list{ display:grid; gap:10px; margin-top: 10px; }
-.sc5-list-tight{ margin-top: 10px; }
-.sc5-li{ display:flex; gap:10px; align-items:flex-start; color: rgba(255,255,255,.86); line-height:1.45; }
-.sc5-dot{
-  width:9px; height:9px;
-  border-radius:999px;
-  margin-top:7px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  box-shadow: 0 12px 26px rgba(124,58,237,.18);
-}
-
-.sc5-card-foot{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 14px; }
-
-/* Scroll hint */
-.sc5-scroll{
-  position:absolute;
-  left:50%;
-  bottom: 12px;
-  transform: translateX(-50%);
-  display:flex;
-  gap:8px;
-  align-items:center;
-  color: rgba(255,255,255,.68);
-  font-weight:900;
-  user-select:none;
-  z-index:2;
-
-  cursor:pointer;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.16);
-  padding: 10px 14px;
-  border-radius: 999px;
-}
-.sc5-scroll:hover{ background: rgba(255,255,255,.06); }
-.sc5-arrow{ transform: translateY(-1px); }
-
-/* =========================================================
-   BOTONES (global)
-========================================================= */
-.sc5-btn{
-  border-radius: 18px;
-  padding: 13px 16px;
-  font-weight: 950;
-  cursor:pointer;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  color: rgba(255,255,255,.92);
-  transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
-.sc5-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.085); }
-.sc5-btn:active{ transform: translateY(0); }
-.sc5-btn:disabled{ opacity:.5; cursor:not-allowed; transform:none; }
-.sc5-btn:focus-visible{ outline:none; box-shadow: 0 0 0 6px var(--focus); }
-
-.sc5-btn.primary{
-  border-color: rgba(255,255,255,.10);
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  color:#fff;
-  box-shadow: 0 18px 60px rgba(124,58,237,.18);
-}
-.sc5-btn.primary:hover{
-  background: linear-gradient(90deg, rgba(124,58,237,.95), rgba(34,197,94,.95));
-}
-
-.sc5-btn.ghost{
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.12);
-}
-
-/* Botón grande (si lo usas) */
-.sc5-btn-xl{
-  padding: 14px 18px;
-  border-radius: 18px;
-  font-size: 1.02rem;
-}
-
-/* =========================================================
-   SECCIÓN CALCULADORA
-========================================================= */
-.sc5-section{ margin-top: 18px; }
-
-.sc5-section-head{
-  border-radius: calc(var(--radius) + 8px);
-  border: 1px solid rgba(255,255,255,.14);
-  background: linear-gradient(135deg, rgba(124,58,237,.22), rgba(34,197,94,.12));
-  padding: 18px;
-  box-shadow: 0 18px 60px rgba(0,0,0,.35);
-}
+  --shadow: 0 18px 55px -40px rgba(15,23,42,.22);
+  --shadow2: 0 12px 40px -30px rgba(15,23,42,.18);
 
-.sc5-h2{ margin:0 0 6px; font-size:1.6rem; letter-spacing:-.4px; }
-.sc5-sub{ margin:0; color: rgba(255,255,255,.72); line-height:1.7; font-size: 1.05rem; }
-
-/* ALERT */
-.sc5-alert{
-  margin-top: 12px;
-  border-radius: var(--radius);
-  padding: 14px;
-  border: 1px solid rgba(251,146,60,.35);
-  background: rgba(251,146,60,.12);
-}
-.sc5-alert-title{ font-weight:950; margin-bottom: 8px; }
-.sc5-alert-list{ margin:0; padding-left: 18px; color: rgba(255,255,255,.86); }
-
-/* =========================================================
-   GRID: CALCULADORA GRANDE + CONSEJOS DEBAJO (DESKTOP)
-========================================================= */
-.sc5-grid{
-  margin-top: 14px;
-  display:grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-  align-items:start;
-}
-@media(min-width:980px){
-  .sc5-grid{
-    grid-template-columns: 1fr; /* una columna: calculadora protagonista */
-    gap: 16px;
-  }
-}
-
-/* =========================================================
-   WIZARD: MÁS GRANDE / MÁS “PRO”
-========================================================= */
-.sc5-wizard{
-  border-radius: calc(var(--radius) + 6px);
-  border: 1px solid rgba(255,255,255,.16);
-  background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
-  box-shadow: var(--shadow);
-  overflow:hidden;
-}
-
-/* banda superior con leve acento */
-.sc5-wizard-head{
-  padding: 20px 22px 14px;
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap: 12px;
-  background:
-    radial-gradient(900px 250px at 18% 0%, rgba(124,58,237,.18), transparent 60%),
-    rgba(255,255,255,.02);
-  border-bottom: 1px solid rgba(255,255,255,.08);
-}
-
-.sc5-wizard-title{ font-weight:950; letter-spacing:-.3px; font-size: 1.18rem; }
-.sc5-wizard-sub{ margin-top: 4px; color: rgba(255,255,255,.70); font-size:.96rem; }
-
-.sc5-reset{
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  color: rgba(255,255,255,.92);
-  border-radius: 14px;
-  padding: 10px 12px;
-  font-weight: 900;
-  cursor:pointer;
-}
-.sc5-reset:hover{ background: rgba(255,255,255,.08); }
-.sc5-reset:focus-visible{ outline:none; box-shadow: 0 0 0 6px var(--focus); }
-
-.sc5-form{ padding: 14px 22px 22px; }
-
-/* Progreso */
-.sc5-progress-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin: 10px 0 10px;
-}
-.sc5-steptext{ color: rgba(255,255,255,.78); font-weight: 950; }
-.sc5-hint{ color: rgba(255,255,255,.55); font-size:.92rem; }
-
-.sc5-bar{
-  height: 12px;
-  background: rgba(255,255,255,.10);
-  border-radius: 999px;
-  overflow:hidden;
-}
-.sc5-bar-fill{
-  height: 100%;
-  width:0%;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  border-radius: 999px;
-  transition: width .25s ease;
-}
-
-.sc5-panels{ margin-top: 12px; }
-.sc5-panel{ display:none; padding: 10px 0 0; }
-.sc5-panel.active{ display:block; }
-
-/* texto preguntas más grande */
-.sc5-q{
-  margin: 0 0 8px;
-  font-size: 1.42rem;
-  letter-spacing: -.2px;
-}
-.sc5-help{
-  margin: 0 0 14px;
-  color: rgba(255,255,255,.72);
-  line-height: 1.75;
-  font-size: 1.04rem;
-}
-
-/* opciones */
-.sc5-options{
-  display:grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-.sc5-options.onecol{ grid-template-columns: 1fr; }
-@media(max-width:520px){
-  .sc5-options{ grid-template-columns: 1fr; }
-}
-
-.sc5-opt{
-  border: 1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.06);
-  border-radius: 20px;
-  padding: 16px 16px;
-  cursor:pointer;
-  text-align:left;
-  color: rgba(255,255,255,.92);
-  font-weight: 900;
-  font-size: 1.02rem;
-  transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
-}
-.sc5-opt:hover{
-  transform: translateY(-1px);
-  background: rgba(255,255,255,.085);
-}
-.sc5-opt:focus-visible{ outline:none; box-shadow: 0 0 0 6px var(--focus); }
-
-.sc5-opt.active{
-  border-color: rgba(124,58,237,.70);
-  box-shadow: 0 16px 48px rgba(124,58,237,.22);
-  background: linear-gradient(180deg, rgba(124,58,237,.22), rgba(255,255,255,.06));
-}
-
-/* inputs */
-.sc5-field{ display:block; margin-top: 12px; }
-.sc5-label{ display:block; font-weight: 950; margin-bottom: 8px; color: rgba(255,255,255,.92); }
-
-.sc5-field input{
-  width:100%;
-  border: 1px solid rgba(255,255,255,.16);
-  background: var(--input);
-  color: rgba(255,255,255,.92);
-  border-radius: 18px;
-  padding: 14px 14px;
-  font-size: 1rem;
-  outline:none;
-}
-.sc5-field input::placeholder{ color: rgba(255,255,255,.38); }
-.sc5-field input:focus{
-  border-color: rgba(124,58,237,.75);
-  box-shadow: 0 0 0 6px var(--focus);
-}
-
-.sc5-tip{ margin: 12px 0 0; color: rgba(255,255,255,.66); }
-
-.sc5-check{
-  display:flex;
-  gap: 10px;
-  align-items:flex-start;
-  margin-top: 12px;
-  color: rgba(255,255,255,.84);
-}
-.sc5-check input{ margin-top: 3px; }
-
-.sc5-legal{ margin-top: 10px; color: rgba(255,255,255,.62); font-size:.95rem; }
-
-/* nav botones */
-.sc5-nav{
-  display:flex;
-  justify-content:space-between;
-  gap: 12px;
-  margin-top: 18px;
-}
-.sc5-nav .sc5-btn{
-  width: 48%;
-  padding: 14px 16px;
-  border-radius: 18px;
-}
-
-/* result */
-.sc5-result{
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: var(--radius);
-  padding: 16px;
-  background: rgba(255,255,255,.06);
-}
-.sc5-result-main{ font-weight: 950; font-size: 1.20rem; }
-.sc5-result-sub{ margin-top: 8px; color: rgba(255,255,255,.84); font-weight: 900; }
-.sc5-result-tags{ margin-top: 12px; display:flex; gap: 10px; flex-wrap:wrap; }
-.sc5-tag{
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.20);
-  padding: 7px 10px;
-  border-radius: 999px;
+  --yellow:#facc15;
+  --yellow2:#fde047;
+  --ring: rgba(250,204,21,.35);
 }
-.sc5-note2{ margin-top: 10px; color: rgba(255,255,255,.68); }
-
-/* =========================================================
-   CONSEJOS (debajo y con presencia)
-========================================================= */
-.sc5-side{ align-self: start; }
-
-.sc5-side-card{
-  border-radius: calc(var(--radius) + 6px);
-  border: 1px solid rgba(255,255,255,.14);
-  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
-  padding: 18px;
-  box-shadow: 0 18px 60px rgba(0,0,0,.30);
-}
-
-.sc5-side-title{
-  font-weight: 950;
-  font-size: 1.12rem;
-  margin-bottom: 4px;
-}
-.sc5-side-sub{
-  color: rgba(255,255,255,.70);
-  margin-bottom: 14px;
-}
-
-.sc5-side-items{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-@media(max-width:720px){
-  .sc5-side-items{ grid-template-columns: 1fr; }
-}
-
-.sc5-side-item{
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.14);
-  padding: 14px;
-  display:flex;
-  gap: 12px;
-  align-items:flex-start;
-}
-
-.sc5-side-ic{
-  width: 40px;
-  height: 40px;
-  border-radius: 16px;
-  display:grid;
-  place-items:center;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.12);
-  flex: 0 0 auto;
-}
-
-.sc5-side-item-title{ font-weight: 950; }
-.sc5-side-item-text{
-  color: rgba(255,255,255,.72);
-  margin-top: 2px;
-  line-height: 1.6;
-  font-size: .95rem;
-}
-.sc5-side-foot{ margin-top: 12px; color: rgba(255,255,255,.62); font-size:.95rem; }
-
-/* =========================================================
-   SEO / FAQ (acordeón)
-========================================================= */
-.sc5-seo{
-  margin-top: 12px;
-  border-radius: calc(var(--radius) + 6px);
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  padding: 18px;
-  box-shadow: 0 18px 60px rgba(0,0,0,.25);
-}
-
-.sc5-seo-head{
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255,255,255,.10);
-  margin-bottom: 12px;
-}
-
-.sc5-seo-title{
-  margin: 0 0 6px;
-  font-size: 1.25rem;
-  letter-spacing: -.2px;
-}
-.sc5-seo-sub{
-  margin: 0;
-  color: rgba(255,255,255,.70);
-  line-height: 1.7;
-}
-
-.sc5-faq{ display:grid; gap: 10px; }
-
-.sc5-faq-item{
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.14);
-  overflow:hidden;
-}
-
-.sc5-faq-q{
-  list-style:none;
-  cursor:pointer;
-  padding: 14px 14px;
-  font-weight: 950;
-  letter-spacing: -.2px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.sc5-faq-q::-webkit-details-marker{ display:none; }
-
-.sc5-faq-q::after{
-  content:"+";
-  font-weight: 950;
-  width: 32px;
-  height: 32px;
-  border-radius: 12px;
-  display:grid;
-  place-items:center;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.06);
-  color: rgba(255,255,255,.86);
-  flex: 0 0 auto;
-}
-
-.sc5-faq-item[open] .sc5-faq-q{
-  background: linear-gradient(180deg, rgba(124,58,237,.14), rgba(255,255,255,.04));
-  border-bottom: 1px solid rgba(255,255,255,.10);
-}
-.sc5-faq-item[open] .sc5-faq-q::after{ content:"–"; }
-
-.sc5-faq-a{
-  padding: 12px 14px 14px;
-  color: rgba(255,255,255,.78);
-  line-height: 1.9;
-}
-
-.sc5-faq-a h3{
-  margin: 14px 0 8px;
-  color: rgba(255,255,255,.92);
-  font-size: 1.02rem;
-}
-.sc5-faq-a p{ margin: 0 0 10px; }
-.sc5-faq-a ul{ margin: 8px 0 0; padding-left: 18px; }
-.sc5-faq-a li{ margin: 6px 0; }
-
-.sc5-steps{ display:grid; gap: 10px; margin-top: 10px; }
-.sc5-step{
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.04);
-  padding: 12px;
-}
-.sc5-step-tag{
-  display:inline-flex;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.06);
-  color: rgba(255,255,255,.86);
-  font-weight: 900;
-  font-size: .92rem;
-  margin-bottom: 8px;
-}
-.sc5-step h3{
-  margin: 0 0 6px;
-  font-size: 1.02rem;
-  letter-spacing: -.1px;
-}
-.sc5-step p{ margin: 0 0 8px; color: rgba(255,255,255,.76); }
-
-/* =========================================================
-   TOAST
-========================================================= */
-.sc5-toast{
-  position: fixed;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  background: rgba(15,23,42,.95);
-  color:#fff;
-  padding: 10px 14px;
-  border-radius: 999px;
-  opacity: 0;
-  pointer-events:none;
-  border: 1px solid rgba(255,255,255,.12);
-  box-shadow: 0 14px 40px rgba(0,0,0,.35);
-  transition: opacity .2s ease;
-  z-index: 200;
-}
-.sc5-toast.show{ opacity: 1; }
-
-/* =========================================================
-   REDUCE MOTION
-========================================================= */
-@media(prefers-reduced-motion: reduce){
-  html{ scroll-behavior:auto; }
-  .sc5-btn, .sc5-opt, .sc5-bar-fill{ transition:none; }
-}
-
-/* =========================================================
-   FIX FONDO "ENTRECORTADO" (banding) + suavizado
-   PÉGALO AL FINAL DEL CSS
-========================================================= */
 
-/* Asegura que el fondo no "salte" y tenga más profundidad */
-html{ background: var(--bg); }
-body{
+/* -----------------------------
+   1) Base / Fondo GLOBAL único
+   (sin cortes entre secciones)
+----------------------------- */
+html, body{
   min-height: 100%;
-  background-attachment: fixed; /* desktop: se ve más continuo */
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
-/* En móviles, fixed puede dar glitches: lo quitamos */
-@media (max-width: 980px){
-  body{ background-attachment: scroll; }
+html{ scroll-behavior: smooth; }
+
+body{
+  color: var(--fg);
+  background-color: #ffffff;
+  margin: 0;
 }
 
-/* Capa de grano (noise) para evitar bandas en degradados */
+/* Fondo solar en un pseudo-elemento fijo (lo más estable, 0 cortes) */
 body::before{
   content:"";
   position: fixed;
   inset: 0;
-  pointer-events: none;
   z-index: -1;
+  pointer-events: none;
 
-  /* ruido muy suave (sin imagen externa) */
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,.018) 0px,
-      rgba(255,255,255,.018) 1px,
-      rgba(0,0,0,.018) 2px,
-      rgba(0,0,0,.018) 3px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(255,255,255,.012) 0px,
-      rgba(255,255,255,.012) 1px,
-      rgba(0,0,0,.012) 2px,
-      rgba(0,0,0,.012) 3px
-    );
-
-  opacity: .35;
-  mix-blend-mode: overlay; /* rompe el banding */
-  transform: translateZ(0); /* evita cortes raros */
+  /* Fondo global continuo */
+  background:
+    radial-gradient(1100px 560px at 12% -6%, rgba(250,204,21,.20), transparent 62%),
+    radial-gradient(980px 520px at 92% 10%, rgba(34,197,94,.15), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 40%, #ffffff 100%);
 }
 
-/* Suaviza bordes de secciones con blur mínimo (opcional pero ayuda) */
-.sc5-hero,
-.sc5-wizard,
-.sc5-section-head,
-.sc5-seo,
-.sc5-side-card{
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform: translateZ(0);
+/* Evitar “saltos” por overflow lateral */
+body{ overflow-x: hidden; }
+
+/* -----------------------------
+   2) Tipografía/colores cuando venías de dark
+----------------------------- */
+.text-slate-100, .text-slate-200, .text-slate-300{ color: var(--muted) !important; }
+.text-slate-600{ color: var(--muted) !important; }
+.text-slate-500{ color: var(--muted2) !important; }
+.text-slate-900{ color: var(--fg) !important; }
+
+h1, h2, h3{ color: var(--fg); }
+
+/* -----------------------------
+   3) IMPORTANT: secciones TRANSPARENTES
+   (para que se vea el mismo fondo siempre)
+----------------------------- */
+main, section{ background: transparent !important; }
+
+/* Neutraliza fondos típicos de Tailwind que “pintan bloque” */
+.bg-white,
+.bg-slate-50, .bg-slate-100,
+.bg-gray-50, .bg-gray-100{
+  background-color: transparent !important;
 }
 
+/* -----------------------------
+   4) Header “glass” claro
+----------------------------- */
+header{
+  background: rgba(255,255,255,.78) !important;
+  border-color: var(--border2) !important;
+  backdrop-filter: blur(12px);
+}
+
+/* Chips/pills del header (si venían con bg-white/5) */
+header [class*="bg-white/5"],
+header [class*="bg-white/10"]{
+  background: rgba(15,23,42,.04) !important;
+  border-color: var(--border2) !important;
+  color: var(--muted) !important;
+}
+
+/* -----------------------------
+   5) Tarjetas (wizard, aside, etc.)
+   - Convertimos tus “cards dark” (bg-white/5 + border-white/10)
+     en cards claras premium
+----------------------------- */
+.rounded-3xl.border.border-white\/10.bg-white\/5,
+.rounded-2xl.border.border-white\/10.bg-white\/5,
+.rounded-2xl.border.border-white\/10.bg-white\/10,
+.rounded-2xl.border.border-white\/15.bg-white\/5{
+  background: var(--card-soft) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Si usas cards claras nativas (border-slate-200 bg-white) */
+.rounded-3xl.border.border-slate-200.bg-white,
+.rounded-2xl.border.border-slate-200.bg-white{
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow2) !important;
+}
+
+/* -----------------------------
+   6) Wizard: mostrar/ocultar pasos
+----------------------------- */
+.sc5-panel{ display: none; }
+.sc5-panel.active{ display: block; }
+
+/* -----------------------------
+   7) Inputs (claros + focus solar)
+----------------------------- */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"]{
+  background: rgba(255,255,255,.96) !important;
+  border-color: rgba(15,23,42,.14) !important;
+  color: var(--fg) !important;
+  box-shadow: 0 8px 22px -18px rgba(15,23,42,.18);
+}
+
+input::placeholder{
+  color: rgba(100,116,139,.85) !important;
+}
+
+input:focus{
+  outline: none !important;
+  border-color: rgba(250,204,21,.75) !important;
+  box-shadow:
+    0 0 0 4px var(--ring),
+    0 10px 24px -22px rgba(250,204,21,.90) !important;
+}
+
+/* Autofill Chrome */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus{
+  -webkit-text-fill-color: var(--fg);
+  -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,.96) inset;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* -----------------------------
+   8) Opciones (botones del wizard)
+----------------------------- */
+.sc5-opt{
+  background: rgba(255,255,255,.96) !important;
+  border-color: rgba(15,23,42,.14) !important;
+  color: var(--fg) !important;
+
+  box-shadow: 0 10px 24px -22px rgba(15,23,42,.22);
+  transition: transform .10s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+  will-change: transform;
+}
+
+.sc5-opt:hover{
+  transform: translateY(-1px);
+  background: rgba(250,204,21,.10) !important;
+  border-color: rgba(250,204,21,.35) !important;
+  box-shadow: 0 18px 42px -32px rgba(250,204,21,.70);
+}
+
+/* Activo seleccionado */
+.sc5-opt.active{
+  transform: translateY(-1px);
+  background: rgba(250,204,21,.16) !important;
+  border-color: rgba(250,204,21,.78) !important;
+  box-shadow:
+    0 0 0 4px rgba(250,204,21,.18),
+    0 18px 50px -35px rgba(250,204,21,.80),
+    0 18px 60px -48px rgba(34,197,94,.30) !important;
+  color: var(--fg) !important; /* NO blanco en tema claro */
+}
+
+/* -----------------------------
+   9) Barra de progreso (track claro)
+----------------------------- */
+[aria-label="Progreso"] .bg-white\/10{
+  background: rgba(15,23,42,.10) !important;
+}
+
+/* -----------------------------
+   10) Botones ghost (antes oscuros)
+----------------------------- */
+a.border.border-white\/15.bg-white\/5,
+button.border.border-white\/15.bg-white\/5{
+  background: rgba(15,23,42,.04) !important;
+  border-color: rgba(15,23,42,.12) !important;
+  color: var(--fg) !important;
+}
+a.border.border-white\/15.bg-white\/5:hover,
+button.border.border-white\/15.bg-white\/5:hover{
+  background: rgba(15,23,42,.06) !important;
+}
+
+/* -----------------------------
+   11) CTA amarillo
+----------------------------- */
+a.bg-yellow-300, button.bg-yellow-300,
+a.bg-yellow-400, button.bg-yellow-400{
+  background: var(--yellow) !important;
+  color: #0f172a !important;
+}
+a.bg-yellow-300:hover, button.bg-yellow-300:hover,
+a.bg-yellow-400:hover, button.bg-yellow-400:hover{
+  background: var(--yellow2) !important;
+}
+
+/* -----------------------------
+   12) Toast
+----------------------------- */
+#sc-toast{ display: none; }
+#sc-toast.show{
+  display: block;
+  animation: scToastIn .18s ease-out;
+}
+#sc-toast{
+  background: rgba(15,23,42,.92) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  color: #fff !important;
+}
+@keyframes scToastIn{
+  from{ opacity:0; transform: translate(-50%, 10px); }
+  to{ opacity:1; transform: translate(-50%, 0); }
+}
+
+/* -----------------------------
+   13) FAQ / details (claro integrado)
+----------------------------- */
+.sc5-seo-surface{
+  background: transparent !important; /* el fondo ya está en body */
+}
+
+/* Tarjeta principal del FAQ */
+.sc5-seo-surface > div > div{
+  background: var(--card-soft) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Items details */
+.sc5-seo-surface details{
+  background: rgba(255,255,255,.90) !important;
+  border-color: rgba(15,23,42,.12) !important;
+  box-shadow: 0 16px 45px -40px rgba(15,23,42,.20);
+}
+
+details > summary{
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+details > summary::-webkit-details-marker{ display:none; }
+.sc5-seo-surface summary:hover{ opacity: .96; }
+
+.sc5-seo-surface p,
+.sc5-seo-surface li{
+  color: rgba(30,41,59,.92);
+}
+
+/* -----------------------------
+   14) Accesibilidad focus teclado
+----------------------------- */
+:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+  border-radius: 14px;
+}
+
+/* -----------------------------
+   15) Reduce motion
+----------------------------- */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  .sc5-opt{ transition: none; }
+  #sc-toast.show{ animation: none; }
+}
+
+/* -----------------------------
+   16) EXTRA: si quieres “velo” suave SOLO en calculadora
+   (mantiene el fondo global, pero mejora contraste)
+   Puedes borrar este bloque si no lo quieres.
+----------------------------- */
+#calculadora{
+  position: relative;
+}
+#calculadora::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: rgba(255,255,255,.10);
+  pointer-events:none;
+}
+#calculadora > *{
+  position: relative;
+  z-index: 1;
+}
