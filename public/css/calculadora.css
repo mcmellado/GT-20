@@ -1,284 +1,206 @@
 /* =========================================================
-   calculadora.css — TEMA CLARO SOLAR (1 fondo global, sin cortes)
-   - Fondo global continuo (verde + amarillo) en TODA la página
-   - Wizard: show/hide steps
-   - Opciones: hover/active
-   - Toast
-   - FAQ/details
-   - Accesibilidad: focus-visible + reduced motion
+   calculadora.css — TEMA CLARO LIMPIO
+   - Fondo con IMAGEN
+   - Overlay blanco suave para legibilidad
+   - Cards BLANCAS REALES
+   - Sin blur / sin glass / sin manchas
 ========================================================= */
 
 /* -----------------------------
    0) Variables base
 ----------------------------- */
 :root{
-  --fg: #0f172a;                 /* slate-900 */
-  --muted: #475569;              /* slate-600 */
-  --muted2:#64748b;              /* slate-500 */
+  --fg: #0f172a;       /* slate-900 */
+  --muted: #475569;    /* slate-600 */
+  --muted2:#64748b;    /* slate-500 */
 
   --border: rgba(15,23,42,.12);
   --border2: rgba(15,23,42,.10);
 
-  --card: rgba(255,255,255,.92);
-  --card-soft: rgba(255,255,255,.86);
+  --card: #ffffff;
 
-  --shadow: 0 18px 55px -40px rgba(15,23,42,.22);
-  --shadow2: 0 12px 40px -30px rgba(15,23,42,.18);
+  --shadow: 0 14px 40px -32px rgba(15,23,42,.18);
+  --shadow-soft: 0 10px 30px -28px rgba(15,23,42,.14);
 
   --yellow:#facc15;
   --yellow2:#fde047;
-  --ring: rgba(250,204,21,.35);
+  --ring: rgba(250,204,21,.30);
 }
 
 /* -----------------------------
-   1) Base / Fondo GLOBAL único
-   (sin cortes entre secciones)
+   1) Base + Fondo con imagen
 ----------------------------- */
-html, body{
-  min-height: 100%;
-}
-
+html, body{ min-height: 100%; }
 html{ scroll-behavior: smooth; }
 
-body{
-  color: var(--fg);
-  background-color: #ffffff;
-  margin: 0;
+
+/* Accesibilidad: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
-
-/* Fondo solar en un pseudo-elemento fijo (lo más estable, 0 cortes) */
-body::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-
-  /* Fondo global continuo */
-  background:
-    radial-gradient(1100px 560px at 12% -6%, rgba(250,204,21,.20), transparent 62%),
-    radial-gradient(980px 520px at 92% 10%, rgba(34,197,94,.15), transparent 60%),
-    linear-gradient(180deg, #ffffff 0%, #f8fafc 40%, #ffffff 100%);
-}
-
-/* Evitar “saltos” por overflow lateral */
-body{ overflow-x: hidden; }
 
 /* -----------------------------
-   2) Tipografía/colores cuando venías de dark
+   2) Tipografía
 ----------------------------- */
-.text-slate-100, .text-slate-200, .text-slate-300{ color: var(--muted) !important; }
+.text-slate-100,
+.text-slate-200,
+.text-slate-300,
 .text-slate-600{ color: var(--muted) !important; }
+
 .text-slate-500{ color: var(--muted2) !important; }
 .text-slate-900{ color: var(--fg) !important; }
 
 h1, h2, h3{ color: var(--fg); }
 
 /* -----------------------------
-   3) IMPORTANT: secciones TRANSPARENTES
-   (para que se vea el mismo fondo siempre)
+   3) Secciones transparentes
 ----------------------------- */
 main, section{ background: transparent !important; }
 
-/* Neutraliza fondos típicos de Tailwind que “pintan bloque” */
-.bg-white,
-.bg-slate-50, .bg-slate-100,
-.bg-gray-50, .bg-gray-100{
-  background-color: transparent !important;
-}
-
 /* -----------------------------
-   4) Header “glass” claro
+   4) Header sólido (sin glass)
 ----------------------------- */
 header{
-  background: rgba(255,255,255,.78) !important;
+  background: #ffffff !important;
   border-color: var(--border2) !important;
-  backdrop-filter: blur(12px);
-}
-
-/* Chips/pills del header (si venían con bg-white/5) */
-header [class*="bg-white/5"],
-header [class*="bg-white/10"]{
-  background: rgba(15,23,42,.04) !important;
-  border-color: var(--border2) !important;
-  color: var(--muted) !important;
 }
 
 /* -----------------------------
-   5) Tarjetas (wizard, aside, etc.)
-   - Convertimos tus “cards dark” (bg-white/5 + border-white/10)
-     en cards claras premium
+   5) Cards blancas reales (SIN afectar a TODOS los divs)
 ----------------------------- */
-.rounded-3xl.border.border-white\/10.bg-white\/5,
-.rounded-2xl.border.border-white\/10.bg-white\/5,
-.rounded-2xl.border.border-white\/10.bg-white\/10,
-.rounded-2xl.border.border-white\/15.bg-white\/5{
-  background: var(--card-soft) !important;
-  border-color: var(--border) !important;
+.sc-card{
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
   box-shadow: var(--shadow) !important;
-  backdrop-filter: blur(10px);
+  border-radius: 24px; /* por si acaso */
+  overflow: hidden;
 }
 
-/* Si usas cards claras nativas (border-slate-200 bg-white) */
+/* Cards típicas que ya tienes (bordes/rounded + bg-white) */
 .rounded-3xl.border.border-slate-200.bg-white,
 .rounded-2xl.border.border-slate-200.bg-white{
-  background: var(--card) !important;
+  background: #ffffff !important;
   border-color: var(--border) !important;
-  box-shadow: var(--shadow2) !important;
+  box-shadow: var(--shadow) !important;
 }
 
-/* -----------------------------
-   6) Wizard: mostrar/ocultar pasos
------------------------------ */
-.sc5-panel{ display: none; }
-.sc5-panel.active{ display: block; }
+/* ❌ Sin halos ni efectos raros */
+.sc-card::after{ display:none !important; }
 
 /* -----------------------------
-   7) Inputs (claros + focus solar)
+   6) Inputs
 ----------------------------- */
 input[type="text"],
 input[type="number"],
 input[type="email"],
 input[type="tel"]{
-  background: rgba(255,255,255,.96) !important;
-  border-color: rgba(15,23,42,.14) !important;
+  background: #ffffff !important;
+  border-color: var(--border) !important;
   color: var(--fg) !important;
-  box-shadow: 0 8px 22px -18px rgba(15,23,42,.18);
+  box-shadow: var(--shadow-soft);
 }
 
-input::placeholder{
-  color: rgba(100,116,139,.85) !important;
-}
+input::placeholder{ color: var(--muted2) !important; }
 
 input:focus{
   outline: none !important;
-  border-color: rgba(250,204,21,.75) !important;
+  border-color: rgba(250,204,21,.65) !important;
   box-shadow:
     0 0 0 4px var(--ring),
-    0 10px 24px -22px rgba(250,204,21,.90) !important;
+    var(--shadow-soft) !important;
 }
 
 /* Autofill Chrome */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus{
+input:-webkit-autofill{
   -webkit-text-fill-color: var(--fg);
-  -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,.96) inset;
-  transition: background-color 9999s ease-in-out 0s;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
 }
 
 /* -----------------------------
-   8) Opciones (botones del wizard)
+   7) Opciones wizard
 ----------------------------- */
 .sc5-opt{
-  background: rgba(255,255,255,.96) !important;
-  border-color: rgba(15,23,42,.14) !important;
+  background: #ffffff !important;
+  border-color: var(--border) !important;
   color: var(--fg) !important;
-
-  box-shadow: 0 10px 24px -22px rgba(15,23,42,.22);
-  transition: transform .10s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
-  will-change: transform;
+  box-shadow: var(--shadow-soft);
+  transition: transform .12s ease, box-shadow .12s ease;
 }
 
 .sc5-opt:hover{
   transform: translateY(-1px);
-  background: rgba(250,204,21,.10) !important;
-  border-color: rgba(250,204,21,.35) !important;
-  box-shadow: 0 18px 42px -32px rgba(250,204,21,.70);
+  box-shadow: var(--shadow);
 }
 
-/* Activo seleccionado */
 .sc5-opt.active{
-  transform: translateY(-1px);
-  background: rgba(250,204,21,.16) !important;
-  border-color: rgba(250,204,21,.78) !important;
+  background: rgba(250,204,21,.10) !important;
+  border-color: rgba(250,204,21,.55) !important;
   box-shadow:
-    0 0 0 4px rgba(250,204,21,.18),
-    0 18px 50px -35px rgba(250,204,21,.80),
-    0 18px 60px -48px rgba(34,197,94,.30) !important;
-  color: var(--fg) !important; /* NO blanco en tema claro */
+    0 0 0 4px rgba(250,204,21,.14),
+    var(--shadow) !important;
 }
 
 /* -----------------------------
-   9) Barra de progreso (track claro)
+   8) Barra de progreso
 ----------------------------- */
 [aria-label="Progreso"] .bg-white\/10{
-  background: rgba(15,23,42,.10) !important;
+  background: rgba(15,23,42,.12) !important;
 }
 
 /* -----------------------------
-   10) Botones ghost (antes oscuros)
+   9) Botones
 ----------------------------- */
-a.border.border-white\/15.bg-white\/5,
-button.border.border-white\/15.bg-white\/5{
-  background: rgba(15,23,42,.04) !important;
-  border-color: rgba(15,23,42,.12) !important;
+a.border,
+button.border{
+  background: #ffffff !important;
+  border-color: var(--border) !important;
   color: var(--fg) !important;
 }
-a.border.border-white\/15.bg-white\/5:hover,
-button.border.border-white\/15.bg-white\/5:hover{
-  background: rgba(15,23,42,.06) !important;
-}
 
-/* -----------------------------
-   11) CTA amarillo
------------------------------ */
+/* CTA amarillo */
 a.bg-yellow-300, button.bg-yellow-300,
 a.bg-yellow-400, button.bg-yellow-400{
   background: var(--yellow) !important;
-  color: #0f172a !important;
+  color: var(--fg) !important;
 }
-a.bg-yellow-300:hover, button.bg-yellow-300:hover,
-a.bg-yellow-400:hover, button.bg-yellow-400:hover{
+
+a.bg-yellow-300:hover,
+a.bg-yellow-400:hover{
   background: var(--yellow2) !important;
 }
 
 /* -----------------------------
-   12) Toast
+   10) Toast
 ----------------------------- */
-#sc-toast{ display: none; }
+#sc-toast{ display:none; }
+
 #sc-toast.show{
-  display: block;
+  display:block;
   animation: scToastIn .18s ease-out;
 }
+
 #sc-toast{
   background: rgba(15,23,42,.92) !important;
   border: 1px solid rgba(255,255,255,.10) !important;
-  color: #fff !important;
+  color:#fff !important;
 }
+
 @keyframes scToastIn{
   from{ opacity:0; transform: translate(-50%, 10px); }
   to{ opacity:1; transform: translate(-50%, 0); }
 }
 
 /* -----------------------------
-   13) FAQ / details (claro integrado)
+   11) SEO / FAQ
 ----------------------------- */
-.sc5-seo-surface{
-  background: transparent !important; /* el fondo ya está en body */
-}
+.sc5-seo-surface{ background: transparent !important; }
 
-/* Tarjeta principal del FAQ */
-.sc5-seo-surface > div > div{
-  background: var(--card-soft) !important;
+.sc5-seo-surface > div > div,
+.sc5-seo-surface details{
+  background: #ffffff !important;
   border-color: var(--border) !important;
   box-shadow: var(--shadow) !important;
-  backdrop-filter: blur(10px);
 }
-
-/* Items details */
-.sc5-seo-surface details{
-  background: rgba(255,255,255,.90) !important;
-  border-color: rgba(15,23,42,.12) !important;
-  box-shadow: 0 16px 45px -40px rgba(15,23,42,.20);
-}
-
-details > summary{
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-details > summary::-webkit-details-marker{ display:none; }
-.sc5-seo-surface summary:hover{ opacity: .96; }
 
 .sc5-seo-surface p,
 .sc5-seo-surface li{
@@ -286,7 +208,7 @@ details > summary::-webkit-details-marker{ display:none; }
 }
 
 /* -----------------------------
-   14) Accesibilidad focus teclado
+   12) Focus accesible
 ----------------------------- */
 :focus-visible{
   outline: none;
@@ -295,30 +217,35 @@ details > summary::-webkit-details-marker{ display:none; }
 }
 
 /* -----------------------------
-   15) Reduce motion
+   13) Reduce motion extra
 ----------------------------- */
 @media (prefers-reduced-motion: reduce){
-  html{ scroll-behavior: auto; }
   .sc5-opt{ transition: none; }
   #sc-toast.show{ animation: none; }
 }
 
-/* -----------------------------
-   16) EXTRA: si quieres “velo” suave SOLO en calculadora
-   (mantiene el fondo global, pero mejora contraste)
-   Puedes borrar este bloque si no lo quieres.
------------------------------ */
-#calculadora{
+
+/* HERO con imagen SOLO aquí */
+#presentacion{
   position: relative;
+  overflow: hidden;
 }
-#calculadora::before{
+
+/* imagen */
+#presentacion::before{
   content:"";
   position:absolute;
   inset:0;
-  background: rgba(255,255,255,.10);
-  pointer-events:none;
+  background: url("/images/fondo_landing.jpg") center / cover no-repeat;
+  z-index: -2;
 }
-#calculadora > *{
-  position: relative;
-  z-index: 1;
+
+/* overlay blanco para que se lea bien */
+#presentacion::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: rgba(255,255,255,.55); /* súbelo/bájalo a gusto */
+  z-index: -1;
 }
+
