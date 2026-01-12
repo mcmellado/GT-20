@@ -8,14 +8,19 @@
   <meta name="description" content="Calcula el precio orientativo de tu instalación de placas solares en 1 minuto." />
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="{{ asset('css/calculadora.css') }}">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+<link rel="stylesheet" href="{{ asset('css/calculadora.css') }}">
 
+<!-- Leaflet (1 sola vez) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Leaflet.draw -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+<!-- Turf (para m²) -->
+<script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+
 
 
 
@@ -315,17 +320,17 @@
           </div>
 
           <!-- BUSCADOR -->
-          <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-            <input id="addr"
-              type="text"
-              placeholder="Ej: Calle Mayor 10, Madrid"
-              class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm">
+         <div class="mt-4 addr-wrap">
+          <input id="addr" type="text" autocomplete="off"
+            placeholder="Ej: Calle Mayor 10, Madrid"
+            class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm">
 
-            <button id="btnSearch"
-              class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold hover:bg-slate-50">
-              🔎 Buscar
-            </button>
+          <div id="suggest"
+            class="hidden mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
           </div>
+        </div>
+        </div>
+
 
           <!-- SUPERFICIE -->
           <div class="mt-4 flex flex-wrap items-center gap-3 text-sm">
@@ -365,66 +370,101 @@
 </section>
 
 <script>
-(function () {
+(() => {
+  const $ = (id) => document.getElementById(id);
 
-  const hintBox = document.getElementById('mapHint');
+  const hintBox = $('mapHint');
   const hint = (msg) => {
+    if (!hintBox) return;
     hintBox.textContent = msg;
     hintBox.classList.remove('hidden');
     clearTimeout(window.__hintT);
     window.__hintT = setTimeout(() => hintBox.classList.add('hidden'), 4500);
   };
 
+  // Guards
+  if (!window.L) return console.error("Leaflet no cargó");
+  if (!window.turf) return console.error("Turf no cargó (falta incluirlo en head)");
+  if (!$('scMap')) return console.error("#scMap no existe");
+
   /* =========================
-     MAPA
+     MAPA (SATÉLITE + LABELS + FALLBACK)
   ========================= */
   const map = L.map('scMap', {
     zoomControl: false
   }).setView([40.4168, -3.7038], 18);
+  window.scMap = map;
 
   L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-  /* ORTOFOTO PNOA (tejados reales) */
-  L.tileLayer.wms("https://www.ign.es/wms-inspire/pnoa-ma?", {
-    layers: "OI.OrthoimageCoverage",
-    format: "image/jpeg",
-    transparent: false,
-    attribution: "PNOA"
-  }).addTo(map);
+  const esriImagery = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    { maxZoom: 20, attribution: "Esri" }
+  );
 
-  /* CATASTRO (parcelas) */
-  L.tileLayer.wms("https://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?", {
-    layers: "PARCELA",
-    format: "image/png",
-    transparent: true
-  }).addTo(map);
+  const labels = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png",
+    { subdomains: "abcd", maxZoom: 20, attribution: "CARTO" }
+  );
+
+  const osmFallback = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { maxZoom: 20, attribution: "© OpenStreetMap" }
+  );
+
+  esriImagery.addTo(map);
+  labels.addTo(map);
+
+  let esriErrors = 0;
+  let switched = false;
+  const switchToOSM = () => {
+    if (switched) return;
+    switched = true;
+    try { map.removeLayer(esriImagery); } catch {}
+    osmFallback.addTo(map);
+    hint("Satélite no disponible: usando mapa alternativo.");
+  };
+
+  esriImagery.on("tileerror", () => {
+    esriErrors += 1;
+    if (esriErrors >= 6) switchToOSM();
+  });
+
+  setTimeout(() => map.invalidateSize(true), 200);
+  window.addEventListener("resize", () => map.invalidateSize(true));
 
   /* =========================
-     DIBUJO
+     DIBUJO (Leaflet.draw) + m²
   ========================= */
-  map.pm.addControls({
-    position: 'bottomleft',
-    drawMarker: false,
-    drawPolyline: false,
-    drawRectangle: false,
-    drawCircle: false,
-    drawCircleMarker: false,
-    drawPolygon: true,
-    editMode: true,
-    dragMode: true,
-    removalMode: true
+  const drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
+
+  const drawControl = new L.Control.Draw({
+    position: "bottomleft",
+    draw: {
+      polygon: { allowIntersection: false },
+      polyline: false,
+      rectangle: false,
+      circle: false,
+      marker: false,
+      circlemarker: false
+    },
+    edit: { featureGroup: drawnItems, remove: true }
   });
+  map.addControl(drawControl);
 
   let polygon = null;
 
   const updateArea = () => {
-    const label = document.getElementById('areaLabel');
-    const input = document.getElementById('sc_area_m2');
-    const geo = document.getElementById('sc_geojson');
-    const btnNext = document.getElementById('btnNext');
+    const label = $('areaLabel');
+    const input = $('sc_area_m2');
+    const geo = $('sc_geojson');
+    const btnNext = $('btnNext');
 
     if (!polygon) {
       label.textContent = '0';
+      input.value = '';
+      geo.value = '';
       btnNext.disabled = true;
       return;
     }
@@ -436,72 +476,151 @@
     input.value = area;
     geo.value = JSON.stringify(gj);
 
+    // centro aproximado
+    const c = polygon.getBounds().getCenter();
+    $('sc_lat').value = c.lat;
+    $('sc_lng').value = c.lng;
+
     btnNext.disabled = area <= 0;
   };
 
-  map.on('pm:create', (e) => {
-    if (polygon) map.removeLayer(polygon);
+  map.on(L.Draw.Event.CREATED, (e) => {
+    drawnItems.clearLayers();
     polygon = e.layer;
+    drawnItems.addLayer(polygon);
     updateArea();
+    hint("Tejado dibujado ✔️");
+  });
 
-    polygon.on('pm:edit', updateArea);
-    polygon.on('pm:remove', () => {
-      polygon = null;
-      updateArea();
-    });
+  map.on(L.Draw.Event.EDITED, updateArea);
+  map.on(L.Draw.Event.DELETED, () => {
+    polygon = null;
+    updateArea();
   });
 
   /* =========================
      BOTONES
   ========================= */
-  document.getElementById('btnClear').onclick = () => {
-    if (polygon) {
-      map.removeLayer(polygon);
-      polygon = null;
-      updateArea();
-    }
-  };
+  $('btnClear').addEventListener('click', () => {
+    drawnItems.clearLayers();
+    polygon = null;
+    updateArea();
+    hint("Dibujo borrado.");
+  });
 
-  document.getElementById('btnLocate').onclick = () => {
-    if (!navigator.geolocation) {
-      return hint('Tu navegador no soporta geolocalización');
-    }
+  let userMarker = null;
+  $('btnLocate').addEventListener('click', () => {
+    if (!navigator.geolocation) return hint("Tu navegador no soporta geolocalización");
 
-    hint('Buscando tu ubicación…');
-
+    hint("Buscando tu ubicación…");
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords;
         map.setView([latitude, longitude], 20);
-        L.circleMarker([latitude, longitude], { radius: 6 }).addTo(map);
-        document.getElementById('sc_lat').value = latitude;
-        document.getElementById('sc_lng').value = longitude;
-        hint('Ubicación encontrada. Dibuja el tejado.');
+
+        if (userMarker) map.removeLayer(userMarker);
+        userMarker = L.circleMarker([latitude, longitude], { radius: 7, weight: 2 }).addTo(map);
+
+        $('sc_lat').value = latitude;
+        $('sc_lng').value = longitude;
+        hint("Ubicación encontrada. Dibuja el tejado.");
       },
-      () => hint('No se pudo obtener la ubicación (requiere HTTPS o localhost)')
+      () => hint("No se pudo obtener la ubicación (requiere HTTPS o localhost)")
     );
+  });
+
+  $('btnNext').addEventListener('click', () => {
+    hint("Paso 1 completado ✔️ (siguiente: tipo de instalación)");
+    // aquí enlazas tu paso 2
+  });
+
+  /* =========================
+     BUSCADOR (Nominatim + sugerencias)
+  ========================= */
+  const addr = $('addr');
+  const suggest = $('suggest');
+
+  
+
+  const hideSuggest = () => {
+    suggest.classList.add('hidden');
+    suggest.innerHTML = '';
   };
 
-  document.getElementById('btnSearch').onclick = async () => {
-    const q = document.getElementById('addr').value.trim();
-    if (!q) return hint('Introduce una dirección');
-
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q)}`
-    );
-    const data = await res.json();
-
-    if (!data.length) return hint('No se encontró la dirección');
-
-    map.setView([data[0].lat, data[0].lon], 20);
-    hint('Dirección encontrada. Dibuja el área.');
+  const showSuggest = (items) => {
+    if (!items.length) return hideSuggest();
+    suggest.innerHTML = items.map((r, i) => `
+      <button type="button" data-i="${i}" class="w-full px-4 py-3 text-left text-sm hover:bg-slate-50">
+        <div class="font-bold text-slate-900">${(r.display_name || '').split(',')[0]}</div>
+        <div class="text-xs text-slate-600">${r.display_name || ''}</div>
+      </button>
+    `).join('');
+    suggest.classList.remove('hidden');
   };
 
-  document.getElementById('btnNext').onclick = () => {
-    hint('Paso 1 completado ✔️ (siguiente: tipo de instalación)');
-    // aquí iremos al paso 2
+  let deb = null;
+  let last = [];
+
+  const search = async (q) => {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=6&q=${encodeURIComponent(q)}`;
+    const res = await fetch(url, { headers: { "Accept": "application/json" } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
   };
 
+  addr.addEventListener('input', () => {
+    clearTimeout(deb);
+    const q = addr.value.trim();
+    if (q.length < 3) return hideSuggest();
+
+    deb = setTimeout(async () => {
+      try {
+        last = await search(q);
+        showSuggest(last);
+      } catch (e) {
+        console.error(e);
+        hideSuggest();
+      }
+    }, 250);
+  });
+
+  addr.addEventListener('keydown', async (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+
+    const q = addr.value.trim();
+    if (!q) return;
+
+    try {
+      const data = await search(q);
+      if (!data.length) return hint("No se encontró la dirección");
+      const r = data[0];
+      map.setView([Number(r.lat), Number(r.lon)], 20);
+      hideSuggest();
+      hint("Dirección encontrada. Dibuja el área.");
+    } catch (e) {
+      console.error(e);
+      hint("Error buscando dirección");
+    }
+  });
+
+  suggest.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-i]');
+    if (!btn) return;
+    const r = last[Number(btn.dataset.i)];
+    if (!r) return;
+
+    map.setView([Number(r.lat), Number(r.lon)], 20);
+    hideSuggest();
+    hint("Dirección seleccionada. Dibuja el área.");
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.target === addr || suggest.contains(e.target)) return;
+    hideSuggest();
+  });
+
+  hint("Escribe tu dirección y dibuja el tejado con el polígono.");
 })();
 </script>
 

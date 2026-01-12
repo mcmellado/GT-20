@@ -249,3 +249,49 @@ a.bg-yellow-400:hover{
   z-index: -1;
 }
 
+/* ===============================
+   FIX DEFINITIVO: panel > mapa
+================================ */
+
+/* contenedor general */
+#sc-step-map{
+  position: relative;
+}
+
+/* el mapa SIEMPRE abajo */
+#scMap{
+  position: absolute;
+  inset: 0;
+  z-index: 10 !important;
+}
+
+/* barra/panel superior SIEMPRE arriba */
+#sc-step-map > .pointer-events-none{
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  z-index: 50 !important;     /* clave */
+}
+
+/* cajita del panel y su contenido */
+#sc-step-map .sc-card{
+  position: relative;
+  z-index: 60 !important;
+  overflow: visible !important;
+}
+
+/* el wrapper del buscador debe permitir dropdown */
+#sc-step-map .addr-wrap{
+  position: relative;
+  overflow: visible !important;
+  z-index: 70 !important;
+}
+
+/* dropdown encima del mapa y del panel */
+#suggest{
+  position: absolute !important;
+  left: 0; right: 0;
+  z-index: 99999 !important;
+}
+
+
+
