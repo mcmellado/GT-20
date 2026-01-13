@@ -1,297 +1,126 @@
-/* =========================================================
-   calculadora.css — TEMA CLARO LIMPIO
-   - Fondo con IMAGEN
-   - Overlay blanco suave para legibilidad
-   - Cards BLANCAS REALES
-   - Sin blur / sin glass / sin manchas
-========================================================= */
+/* =========================
+   Calculadora FULLSCREEN (modo “solo calculadora”)
+========================= */
 
-/* -----------------------------
-   0) Variables base
------------------------------ */
-:root{
-  --fg: #0f172a;       /* slate-900 */
-  --muted: #475569;    /* slate-600 */
-  --muted2:#64748b;    /* slate-500 */
-
-  --border: rgba(15,23,42,.12);
-  --border2: rgba(15,23,42,.10);
-
-  --card: #ffffff;
-
-  --shadow: 0 14px 40px -32px rgba(15,23,42,.18);
-  --shadow-soft: 0 10px 30px -28px rgba(15,23,42,.14);
-
-  --yellow:#facc15;
-  --yellow2:#fde047;
-  --ring: rgba(250,204,21,.30);
+/* Estado normal: calculadora invisible */
+#calculadora.hidden{
+  display:none;
 }
 
-/* -----------------------------
-   1) Base + Fondo con imagen
------------------------------ */
-html, body{ min-height: 100%; }
-html{ scroll-behavior: smooth; }
-
-
-/* Accesibilidad: reduce motion */
-@media (prefers-reduced-motion: reduce){
-  *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+/* Cuando entramos en la calculadora */
+body.sc-calc-full{
+  overflow:hidden;
 }
 
-/* -----------------------------
-   2) Tipografía
------------------------------ */
-.text-slate-100,
-.text-slate-200,
-.text-slate-300,
-.text-slate-600{ color: var(--muted) !important; }
-
-.text-slate-500{ color: var(--muted2) !important; }
-.text-slate-900{ color: var(--fg) !important; }
-
-h1, h2, h3{ color: var(--fg); }
-
-/* -----------------------------
-   3) Secciones transparentes
------------------------------ */
-main, section{ background: transparent !important; }
-
-/* -----------------------------
-   4) Header sólido (sin glass)
------------------------------ */
-header{
-  background: #ffffff !important;
-  border-color: var(--border2) !important;
+/* Oculta TODO lo demás fuera de la calculadora */
+body.sc-calc-full > *:not(#calculadora){
+  display:none !important;
 }
 
-/* -----------------------------
-   5) Cards blancas reales (SIN afectar a TODOS los divs)
------------------------------ */
-.sc-card{
-  background: #ffffff !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: var(--shadow) !important;
-  border-radius: 24px; /* por si acaso */
-  overflow: hidden;
+/* Calculadora ocupa toda la pantalla */
+body.sc-calc-full #calculadora{
+  display:block !important;
+  min-height:100vh;
+  height:100vh;
+  padding:0 !important;
+  margin:0 !important;
+  overflow:auto;          /* importantísimo para scroll interno */
+  background:#f8fafc;     /* slate-50 */
 }
 
-/* Cards típicas que ya tienes (bordes/rounded + bg-white) */
-.rounded-3xl.border.border-slate-200.bg-white,
-.rounded-2xl.border.border-slate-200.bg-white{
-  background: #ffffff !important;
-  border-color: var(--border) !important;
-  box-shadow: var(--shadow) !important;
+/* Barra superior sticky siempre visible */
+body.sc-calc-full #calculadora .sticky{
+  position:sticky;
+  top:0;
+  z-index:60;
 }
 
-/* ❌ Sin halos ni efectos raros */
-.sc-card::after{ display:none !important; }
-
-/* -----------------------------
-   6) Inputs
------------------------------ */
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="tel"]{
-  background: #ffffff !important;
-  border-color: var(--border) !important;
-  color: var(--fg) !important;
-  box-shadow: var(--shadow-soft);
+/* =========================
+   🔥 FIX CRÍTICO:
+   Si un step tiene .hidden, SIEMPRE debe ser display:none
+   (gana a reglas como display:flex del step 1)
+========================= */
+body.sc-calc-full #calculadora .hidden{
+  display:none !important;
 }
 
-input::placeholder{ color: var(--muted2) !important; }
+/* =========================
+   Steps: centrado y altura
+========================= */
 
-input:focus{
-  outline: none !important;
-  border-color: rgba(250,204,21,.65) !important;
-  box-shadow:
-    0 0 0 4px var(--ring),
-    var(--shadow-soft) !important;
+/* Paso 1 centrado vertical */
+body.sc-calc-full #sc-step-housing{
+  min-height:calc(100vh - 64px);
+  display:flex;
+  align-items:center;
 }
 
-/* Autofill Chrome */
-input:-webkit-autofill{
-  -webkit-text-fill-color: var(--fg);
-  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+/* Paso mapa fullscreen */
+body.sc-calc-full #sc-step-map{
+  min-height:calc(100vh - 64px);
+  height:calc(100vh - 64px);
 }
 
-/* -----------------------------
-   7) Opciones wizard
------------------------------ */
-.sc5-opt{
-  background: #ffffff !important;
-  border-color: var(--border) !important;
-  color: var(--fg) !important;
-  box-shadow: var(--shadow-soft);
-  transition: transform .12s ease, box-shadow .12s ease;
+/* Lead y pantallas finales centradas */
+body.sc-calc-full #sc-step-lead,
+body.sc-calc-full #sc-step-loading,
+body.sc-calc-full #sc-step-result{
+  min-height:calc(100vh - 64px);
+  display:flex;
+  align-items:center;
 }
 
-.sc5-opt:hover{
-  transform: translateY(-1px);
-  box-shadow: var(--shadow);
+/* Wrapper para centrar tarjetas (loading/result) */
+.sc-fullscreen-wrap{
+  width:100%;
+  padding:24px 16px;
+  display:flex;
+  justify-content:center;
 }
 
-.sc5-opt.active{
-  background: rgba(250,204,21,.10) !important;
-  border-color: rgba(250,204,21,.55) !important;
-  box-shadow:
-    0 0 0 4px rgba(250,204,21,.14),
-    var(--shadow) !important;
+/* Loading/Result sin padding raro */
+#sc-step-loading,
+#sc-step-result{
+  padding:0 !important;
 }
 
-/* -----------------------------
-   8) Barra de progreso
------------------------------ */
-[aria-label="Progreso"] .bg-white\/10{
-  background: rgba(15,23,42,.12) !important;
+/* Spinner */
+.sc-spin{ animation: scspin 1s linear infinite; }
+@keyframes scspin{ to{ transform: rotate(360deg); } }
+
+
+/* =========================
+   PASO 3 · GASTO MENSUAL (sc-bill-card2)
+========================= */
+
+.sc-bill-card2{
+  position:relative;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
 }
 
-/* -----------------------------
-   9) Botones
------------------------------ */
-a.border,
-button.border{
-  background: #ffffff !important;
-  border-color: var(--border) !important;
-  color: var(--fg) !important;
+.sc-bill-card2:hover{
+  transform:translateY(-3px);
 }
 
-/* CTA amarillo */
-a.bg-yellow-300, button.bg-yellow-300,
-a.bg-yellow-400, button.bg-yellow-400{
-  background: var(--yellow) !important;
-  color: var(--fg) !important;
+.sc-bill-card2.is-selected{
+  background:#fff !important;
+  border-color: rgba(245,158,11,.55) !important;
+  box-shadow: 0 18px 55px -45px rgba(15,23,42,.35), 0 22px 70px -55px rgba(245,158,11,.45) !important;
+  transform: translateY(-2px);
+  outline: 2px solid rgba(245,158,11,.28);
+  outline-offset: 2px;
 }
 
-a.bg-yellow-300:hover,
-a.bg-yellow-400:hover{
-  background: var(--yellow2) !important;
-}
-
-/* -----------------------------
-   10) Toast
------------------------------ */
-#sc-toast{ display:none; }
-
-#sc-toast.show{
-  display:block;
-  animation: scToastIn .18s ease-out;
-}
-
-#sc-toast{
-  background: rgba(15,23,42,.92) !important;
-  border: 1px solid rgba(255,255,255,.10) !important;
-  color:#fff !important;
-}
-
-@keyframes scToastIn{
-  from{ opacity:0; transform: translate(-50%, 10px); }
-  to{ opacity:1; transform: translate(-50%, 0); }
-}
-
-/* -----------------------------
-   11) SEO / FAQ
------------------------------ */
-.sc5-seo-surface{ background: transparent !important; }
-
-.sc5-seo-surface > div > div,
-.sc5-seo-surface details{
-  background: #ffffff !important;
-  border-color: var(--border) !important;
-  box-shadow: var(--shadow) !important;
-}
-
-.sc5-seo-surface p,
-.sc5-seo-surface li{
-  color: rgba(30,41,59,.92);
-}
-
-/* -----------------------------
-   12) Focus accesible
------------------------------ */
-:focus-visible{
-  outline: none;
-  box-shadow: 0 0 0 4px var(--ring);
-  border-radius: 14px;
-}
-
-/* -----------------------------
-   13) Reduce motion extra
------------------------------ */
-@media (prefers-reduced-motion: reduce){
-  .sc5-opt{ transition: none; }
-  #sc-toast.show{ animation: none; }
-}
-
-
-/* HERO con imagen SOLO aquí */
-#presentacion{
-  position: relative;
-  overflow: hidden;
-}
-
-/* imagen */
-#presentacion::before{
+.sc-bill-card2.is-selected::after{
   content:"";
   position:absolute;
   inset:0;
-  background: url("/images/fondo_landing.jpg") center / cover no-repeat;
-  z-index: -2;
+  border-radius: 24px;
+  pointer-events:none;
+  background: linear-gradient(180deg, rgba(245,158,11,.08), transparent 45%);
 }
 
-/* overlay blanco para que se lea bien */
-#presentacion::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: rgba(255,255,255,.55); /* súbelo/bájalo a gusto */
-  z-index: -1;
+.sc-bill-card2.is-selected .inline-flex{
+  border-color: rgba(245,158,11,.28) !important;
+  background: rgba(245,158,11,.10) !important;
 }
-
-/* ===============================
-   FIX DEFINITIVO: panel > mapa
-================================ */
-
-/* contenedor general */
-#sc-step-map{
-  position: relative;
-}
-
-/* el mapa SIEMPRE abajo */
-#scMap{
-  position: absolute;
-  inset: 0;
-  z-index: 10 !important;
-}
-
-/* barra/panel superior SIEMPRE arriba */
-#sc-step-map > .pointer-events-none{
-  position: absolute;
-  left: 0; right: 0; top: 0;
-  z-index: 50 !important;     /* clave */
-}
-
-/* cajita del panel y su contenido */
-#sc-step-map .sc-card{
-  position: relative;
-  z-index: 60 !important;
-  overflow: visible !important;
-}
-
-/* el wrapper del buscador debe permitir dropdown */
-#sc-step-map .addr-wrap{
-  position: relative;
-  overflow: visible !important;
-  z-index: 70 !important;
-}
-
-/* dropdown encima del mapa y del panel */
-#suggest{
-  position: absolute !important;
-  left: 0; right: 0;
-  z-index: 99999 !important;
-}
-
-
-
