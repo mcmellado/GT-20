@@ -565,11 +565,12 @@
 
           <div class="mt-7 flex flex-col gap-3 sm:flex-row">
             <a href="#presentacion"
-               class="inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-extrabold text-white hover:bg-slate-800 sm:w-auto">
+              id="btnResultHome"
+              class="inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-extrabold text-white hover:bg-slate-800 sm:w-auto">
               Volver al inicio
             </a>
 
-            <button type="button" id="resRecalc"
+            <button type="button" id="btnResultRecalc"
               class="inline-flex w-full items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 hover:bg-slate-50 sm:w-auto">
               Recalcular
             </button>
@@ -1335,6 +1336,82 @@ if (leadForm) {
     }
   });
 }
+(() => {
+  const $ = (id) => document.getElementById(id);
+
+  const btnHome   = $('btnResultHome');
+  const btnRecalc = $('btnResultRecalc');
+
+  const calcSection = $('calculadora');
+  const hero = $('presentacion');
+
+  const stepHousing = $('sc-step-housing');
+  const stepMap     = $('sc-step-map');
+  const stepBill    = $('sc-step-bill');
+  const stepLead    = $('sc-step-lead');
+  const stepResult  = $('sc-step-result');
+
+  // -----------------------------
+  // Volver al inicio
+  // -----------------------------
+  if (btnHome) {
+    btnHome.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      document.body.classList.remove('sc-calc-full');
+
+      if (calcSection) calcSection.classList.add('hidden');
+
+      if (hero) hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  // -----------------------------
+  // Recalcular (reset limpio)
+  // -----------------------------
+  if (btnRecalc) {
+    btnRecalc.addEventListener('click', () => {
+
+      // Ocultamos todos los pasos
+      [stepMap, stepBill, stepLead, stepResult].forEach(s => {
+        if (s) s.classList.add('hidden');
+      });
+
+      // Volvemos al paso 1
+      if (stepHousing) stepHousing.classList.remove('hidden');
+      stepHousing.scrollIntoView({ behavior: 'smooth' });
+
+      // Reset inputs ocultos
+      [
+        'sc_housing_type',
+        'sc_area_m2',
+        'sc_geojson',
+        'sc_lat',
+        'sc_lng',
+        'sc_bill_monthly'
+      ].forEach(id => {
+        const el = $(id);
+        if (el) el.value = '';
+      });
+
+      // Reset selecciones visuales
+      document.querySelectorAll('.is-selected')
+        .forEach(el => el.classList.remove('is-selected'));
+
+      // Reset botones continuar
+      const housingBtn = $('housingContinueBtn');
+      const billBtn    = $('billContinueBtn');
+      if (housingBtn) housingBtn.disabled = true;
+      if (billBtn) billBtn.disabled = true;
+
+      // Reset mapa si existe
+      if (window.__scLeafletMap) {
+        setTimeout(() => window.__scLeafletMap.invalidateSize(true), 100);
+      }
+    });
+  }
+
+})();
 </script>
 
 
