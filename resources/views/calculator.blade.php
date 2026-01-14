@@ -687,71 +687,164 @@
 <section id="sc-step-result" class="hidden py-16 bg-slate-50">
   <div class="mx-auto max-w-6xl px-4">
 
-    <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-      <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-
-        <!-- IZQUIERDA: TITULO + COPY + CTA -->
-        <div class="lg:w-[44%]">
-          <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-bold text-slate-700">
-            Resultado orientativo
+    <div class="sc-result-shell rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+      <!-- HEADER -->
+      <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+        <div class="flex items-start gap-4">
+          <div class="sc-result-badge grid h-12 w-12 shrink-0 place-items-center rounded-2xl">
+            ✓
           </div>
 
-          <h2 class="mt-4 text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl">
-            Tu estimación ya está lista
-          </h2>
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-bold text-slate-700">
+              Resultado orientativo
+            </div>
 
-          <p class="mt-4 text-slate-600 leading-relaxed">
-            Estos valores son orientativos y se ajustan con un estudio técnico. Si lo deseas, validamos
-            contigo el tejado y afinamos el presupuesto.
-          </p>
+            <h2 class="mt-3 text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl">
+              Tu estimación ya está lista
+            </h2>
 
-          <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <div class="text-xs font-bold text-slate-600">Resumen</div>
-            <div class="mt-2 text-sm text-slate-700">
-              Superficie: <span class="font-extrabold text-slate-900" id="resArea">—</span> m² ·
-              Gasto: <span class="font-extrabold text-slate-900" id="resBill">—</span> €/mes
+            <p class="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
+              Valores orientativos (se ajustan con estudio técnico). Si quieres, validamos el tejado y afinamos el presupuesto.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2 sm:flex-row">
+          <a href="#presentacion"
+             id="btnResultHome"
+             class="sc-cta-primary inline-flex items-center justify-center rounded-2xl px-6 py-3 text-sm font-extrabold text-white">
+            Volver al inicio
+          </a>
+
+          <button type="button" id="btnResultRecalc"
+                  class="sc-cta-secondary inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 hover:bg-slate-50">
+            Recalcular
+          </button>
+        </div>
+      </div>
+
+      <!-- BODY -->
+      <div class="mt-8 grid gap-6 lg:grid-cols-12">
+        <!-- LEFT -->
+        <div class="lg:col-span-5 space-y-4">
+
+          <!-- Datos vivienda -->
+        <!-- Datos vivienda (versión mejor) -->
+<div class="flex items-center justify-between gap-3">
+  <div>
+    <div class="text-sm font-extrabold text-slate-900">Datos de tu vivienda</div>
+    <div class="mt-1 text-xs text-slate-500">Resumen de lo que has indicado</div>
+  </div>
+
+  <span class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-700">
+    <span class="grid h-5 w-5 place-items-center rounded-full bg-emerald-100 text-emerald-700">✓</span>
+    Estimación lista
+  </span>
+</div>
+
+<!-- mini cards -->
+<div class="mt-5 grid gap-3 sm:grid-cols-2">
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+    <div class="flex items-center justify-between">
+      <div class="text-xs font-bold text-slate-600">Superficie</div>
+      <div class="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 bg-white">📐</div>
+    </div>
+    <div class="mt-2 text-2xl font-extrabold text-slate-900 leading-none">
+      <span id="resArea">—</span>
+      <span class="text-sm font-bold text-slate-600">m²</span>
+    </div>
+    <div class="mt-1 text-xs text-slate-500">Área útil para paneles</div>
+  </div>
+
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+    <div class="flex items-center justify-between">
+      <div class="text-xs font-bold text-slate-600">Gasto mensual</div>
+      <div class="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 bg-white">💡</div>
+    </div>
+    <div class="mt-2 text-2xl font-extrabold text-slate-900 leading-none">
+      <span id="resBill">—</span>
+      <span class="text-sm font-bold text-slate-600">€/mes</span>
+    </div>
+    <div class="mt-1 text-xs text-slate-500">Estimación por rango</div>
+  </div>
+</div>
+
+<!-- coverage -->
+<div class="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
+  <div class="flex items-center justify-between">
+    <div class="text-xs font-bold text-slate-700">Cobertura estimada</div>
+    <div class="text-xs font-extrabold text-slate-900">
+      <span id="resCoverage">—</span>%
+    </div>
+  </div>
+
+  <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100">
+    <div
+      id="resCoverageBar"
+      class="h-full w-0 rounded-full bg-slate-900 transition-all duration-700"
+    ></div>
+  </div>
+
+  <div class="mt-2 text-xs text-slate-500">
+    Orientativo: depende de sombras, orientación y hábitos de consumo.
+  </div>
+</div>
+
+
+          <!-- Pack recomendado -->
+          <div class="sc-card sc-pack rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="text-xs font-bold text-slate-600">Pack recomendado</div>
+                <div class="mt-2 text-lg font-extrabold text-slate-900" id="resPack">—</div>
+                <div class="mt-2 text-sm text-slate-600">
+                  Inversor: <span class="font-bold text-slate-900" id="resInverter">—</span>
+                </div>
+              </div>
+
+              <div class="sc-mini-pill inline-flex items-center rounded-2xl px-3 py-2 text-xs font-extrabold">
+                Optimizado
+              </div>
+            </div>
+
+            <div class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+              Consejo: si tu consumo es alto, podemos mejorar el autoconsumo ajustando potencia y orientación.
             </div>
           </div>
 
-          <div class="mt-7 flex flex-col gap-3 sm:flex-row">
-            <a href="#presentacion"
-              id="btnResultHome"
-              class="inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-extrabold text-white hover:bg-slate-800 sm:w-auto">
-              Volver al inicio
-            </a>
-
-            <button type="button" id="btnResultRecalc"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 hover:bg-slate-50 sm:w-auto">
-              Recalcular
-            </button>
-          </div>
-
-          <p class="mt-4 text-xs text-slate-500">
+          <p class="text-xs text-slate-500">
             *Estimación orientativa. El precio final depende del estudio técnico, materiales y accesibilidad del tejado.
           </p>
         </div>
 
-        <!-- DERECHA: METRICAS -->
-        <div class="lg:w-[56%]">
+        <!-- RIGHT -->
+        <div class="lg:col-span-7">
           <div class="grid gap-4 sm:grid-cols-2">
 
-            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div class="text-xs font-bold text-slate-600">Potencia estimada</div>
-              <div class="mt-2 text-4xl font-extrabold text-slate-900">
+            <div class="sc-metric rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div class="sc-metric-top">
+                <div class="sc-ico">⚡</div>
+                <div class="text-xs font-bold text-slate-600">Potencia estimada</div>
+              </div>
+              <div class="mt-3 text-4xl font-extrabold text-slate-900">
                 <span id="resKwp">—</span><span class="text-2xl font-extrabold"> kWp</span>
               </div>
               <div class="mt-2 text-sm text-slate-600">Recomendación orientativa</div>
             </div>
 
-            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div class="text-xs font-bold text-slate-600">Nº de paneles</div>
-              <div class="mt-2 text-4xl font-extrabold text-slate-900">
+            <div class="sc-metric rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div class="sc-metric-top">
+                <div class="sc-ico">☀️</div>
+                <div class="text-xs font-bold text-slate-600">Nº de paneles</div>
+              </div>
+              <div class="mt-3 text-4xl font-extrabold text-slate-900">
                 <span id="resPanels">—</span>
               </div>
               <div class="mt-2 text-sm text-slate-600">~450 W por panel</div>
             </div>
 
-            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:col-span-2">
+            <div class="sc-pricehero rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:col-span-2">
               <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <div class="text-xs font-bold text-slate-600">Presupuesto orientativo</div>
@@ -774,19 +867,122 @@
                 </div>
               </div>
             </div>
-
           </div>
 
-          <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-            Consejo: si tu consumo es alto, podemos optimizar el autoconsumo ajustando potencia y orientación.
+          <div class="mt-4 sc-note rounded-3xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+            Incluye estimación de potencia, paneles y un rango de precio. Si el tejado tiene sombras/obstáculos, el estudio puede ajustarlo.
           </div>
         </div>
-
       </div>
     </div>
 
   </div>
 </section>
+
+<style>
+  /* =========================
+     RESULTADO · ESTILO PRO
+  ========================= */
+
+  .sc-result-shell{
+    box-shadow: 0 26px 90px -80px rgba(15,23,42,.55);
+  }
+
+  .sc-result-badge{
+    background:
+      radial-gradient(700px 220px at 15% 15%, rgba(245,158,11,.18), transparent 60%),
+      radial-gradient(700px 220px at 90% 20%, rgba(16,185,129,.14), transparent 60%),
+      rgba(15,23,42,.06);
+    border: 1px solid rgba(15,23,42,.10);
+    color: rgba(15,23,42,.90);
+    font-weight: 900;
+  }
+
+  .sc-cta-primary{
+    background: #0f172a;
+    box-shadow: 0 16px 40px -28px rgba(15,23,42,.55);
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  }
+  .sc-cta-primary:hover{
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+    box-shadow: 0 22px 55px -38px rgba(15,23,42,.60);
+  }
+  .sc-cta-primary:active{ transform: translateY(0) scale(.99); }
+
+  .sc-cta-secondary{
+    transition: transform .15s ease;
+  }
+  .sc-cta-secondary:hover{ transform: translateY(-1px); }
+
+  .sc-mini-stat{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    border: 1px solid rgba(15,23,42,.10);
+    background: rgba(248,250,252,.65);
+    border-radius: 18px;
+    padding: 14px 14px;
+  }
+
+  .sc-mini-ico{
+    width:42px;height:42px;
+    border-radius: 14px;
+    display:grid;place-items:center;
+    background: rgba(15,23,42,.04);
+    border: 1px solid rgba(15,23,42,.10);
+  }
+
+  .sc-mini-pill{
+    background:
+      radial-gradient(600px 140px at 25% 0%, rgba(245,158,11,.22), transparent 60%),
+      rgba(245,158,11,.10);
+    border: 1px solid rgba(245,158,11,.30);
+    color: rgba(15,23,42,.88);
+  }
+
+  .sc-metric-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .sc-ico{
+    width:40px;height:40px;
+    border-radius: 14px;
+    display:grid;place-items:center;
+    background: rgba(15,23,42,.04);
+    border: 1px solid rgba(15,23,42,.10);
+  }
+
+  .sc-pricehero{
+    position: relative;
+    overflow: hidden;
+  }
+  .sc-pricehero::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    background:
+      radial-gradient(900px 280px at 10% 0%, rgba(245,158,11,.10), transparent 60%),
+      radial-gradient(900px 280px at 100% 10%, rgba(16,185,129,.08), transparent 60%);
+    pointer-events:none;
+  }
+  .sc-pricehero > *{ position: relative; z-index: 1; }
+
+  .sc-note{
+    background:
+      radial-gradient(900px 240px at 10% 0%, rgba(15,23,42,.04), transparent 60%),
+      rgba(248,250,252,.85);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sc-cta-primary, .sc-cta-secondary { transition: none; }
+    .sc-cta-primary:hover, .sc-cta-secondary:hover { transform: none; }
+  }
+</style>
+
+
 
 
 <style>
@@ -1516,6 +1712,41 @@ if (leadForm) {
       if (elCoverage) elCoverage.textContent = out.coveragePct;
       if (elInverter) elInverter.textContent = out.inverter;
 
+      /* =========================================================
+         ✅ AÑADIDO: rellenar "Datos de tu vivienda" + barra + pack
+         (sin tocar lo demás)
+      ========================================================= */
+      const elArea = document.getElementById('resArea');
+      const elBill = document.getElementById('resBill');
+
+      if (elArea) elArea.textContent = Math.round(areaM2 || 0).toLocaleString('es-ES');
+
+      const billRaw = document.getElementById('sc_bill_monthly')?.value || '';
+      const billLabelMap = {
+        '0-50': '0–50',
+        '50-100': '50–100',
+        '100-150': '100–150',
+        '150-200': '150–200',
+        '200+': '200+',
+        'no-se': '—'
+      };
+
+      // mostramos rango si existe; si no, mostramos media
+      if (elBill) elBill.textContent = billLabelMap[billRaw] || money(billMonthly);
+
+      const elCoverageBar = document.getElementById('resCoverageBar');
+      if (elCoverageBar) elCoverageBar.style.width = `${out.coveragePct}%`;
+
+      const elPack = document.getElementById('resPack');
+      if (elPack) {
+        const prettyPack = (id) => {
+          const p = (id || '').replace('pack-', '').replace('_', '.');
+          return p ? `Pack ${p} kWp` : '—';
+        };
+        elPack.textContent = prettyPack(out.packId);
+      }
+      /* ========================================================= */
+
       setProgress(100, 'Listo ✅');
       await new Promise(r => setTimeout(r, 300));
 
@@ -1649,6 +1880,7 @@ if (leadForm) {
   });
 })();
 </script>
+
 
 
 </body>

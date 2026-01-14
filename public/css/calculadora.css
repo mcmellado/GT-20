@@ -1,21 +1,120 @@
-/* =========================
-   Calculadora FULLSCREEN (modo “solo calculadora”)
-========================= */
+/* ======================================================
+   BASE
+====================================================== */
+:root{
+  --slate-900:#0f172a;
+  --slate-800:#1f2937;
+  --slate-700:#334155;
+  --slate-600:#475569;
+  --slate-500:#64748b;
+  --border: rgba(15,23,42,.12);
+  --shadow: 0 18px 60px -45px rgba(15,23,42,.35);
+  --amber: #f59e0b;
+  --bg: #f8fafc;
+}
+
+html, body{ height:100%; }
+body{ background: var(--bg); }
+
+/* helper */
+.hidden{ display:none !important; }
+
+/* ======================================================
+   HERO (#presentacion) con FOTO pero TEXTO EN BLANCO NO:
+   -> Lo metemos en una tarjeta blanca para que TODO sea negro
+====================================================== */
+#presentacion{
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(1200px 600px at 15% 10%, rgba(245,158,11,.18), transparent 55%),
+    radial-gradient(1200px 600px at 85% 25%, rgba(16,185,129,.16), transparent 60%),
+    url("/images/foto_landing_calculadora.jpg") center / cover no-repeat;
+}
+
+/* overlay suave para que la foto no “grite” */
+#presentacion::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.55));
+  z-index:0;
+}
+#presentacion > *{ position: relative; z-index: 1; }
+
+/* tarjeta blanca que contiene el texto */
+#presentacion .lg\\:col-span-7{
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(15,23,42,.12);
+  border-radius: 26px;
+  padding: 28px;
+  box-shadow: 0 26px 80px -60px rgba(15,23,42,.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* asegura NEGRO */
+#presentacion h1,
+#presentacion p,
+#presentacion strong{
+  color: var(--slate-900) !important;
+}
+
+/* el gradiente del H1 que ya tenías se mantiene, pero sin perder contraste */
+#presentacion h1 span{
+  text-shadow: none !important;
+}
+
+/* pills */
+#presentacion .sc-pill{
+  border: 1px solid rgba(15,23,42,.10) !important;
+  background: rgba(255,255,255,.92) !important;
+  box-shadow: 0 10px 25px -22px rgba(15,23,42,.25);
+}
+
+/* badge de arriba */
+#presentacion .sc-anim.inline-flex{
+  background: rgba(255,255,255,.95) !important;
+  border-color: rgba(15,23,42,.12) !important;
+  color: var(--slate-700) !important;
+}
+
+/* botoncitos */
+.sc-btn-shine{
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.sc-btn-shine:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px -30px rgba(15,23,42,.30);
+}
+
+/* card derecha “Tu estimación” un poco glass pero legible */
+#presentacion .sc-card{
+  background: rgba(255,255,255,.78);
+  border: 1px solid rgba(15,23,42,.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ======================================================
+   SEO (normal)
+====================================================== */
+#seo{ background:#fff; }
+
+/* ======================================================
+   CALCULADORA FULLSCREEN
+====================================================== */
 
 /* Estado normal: calculadora invisible */
-#calculadora.hidden{
-  display:none;
-}
+#calculadora.hidden{ display:none; }
 
-/* Cuando entramos en la calculadora */
-body.sc-calc-full{
-  overflow:hidden; /* bloquea scroll del fondo */
-}
+/* Cuando entramos en calculadora */
+body.sc-calc-full{ overflow:hidden; }
 
 /* Oculta TODO lo demás fuera de la calculadora */
-body.sc-calc-full > *:not(#calculadora){
-  display:none !important;
-}
+body.sc-calc-full > *:not(#calculadora){ display:none !important; }
 
 /* Calculadora ocupa toda la pantalla */
 body.sc-calc-full #calculadora{
@@ -23,61 +122,54 @@ body.sc-calc-full #calculadora{
   position: fixed;
   inset: 0;
   z-index: 999999;
-
   min-height:100vh;
   height:100vh;
-
   padding:0 !important;
   margin:0 !important;
-
-  overflow:auto;          /* importantísimo para scroll interno */
-  -webkit-overflow-scrolling: touch; /* iOS */
-  background:#f8fafc;     /* slate-50 */
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg);
 }
 
-/* Barra superior sticky siempre visible */
+/* Barra superior sticky */
 body.sc-calc-full #calculadora .sticky{
-  position:sticky;
-  top:0;
-  z-index:60;
+  position: sticky;
+  top: 0;
+  z-index: 60;
 }
 
-/* =========================
-   🔥 FIX CRÍTICO:
-   Si un step tiene .hidden, SIEMPRE debe ser display:none
-   (gana a reglas como display:flex del step 1)
-========================= */
+/* Hidden siempre gana dentro */
 body.sc-calc-full #calculadora .hidden{
   display:none !important;
 }
 
-/* =========================
-   Steps: centrado y altura
-========================= */
+/* ======================================================
+   Steps altura / centrado
+====================================================== */
 
 /* Paso 1 centrado vertical */
 body.sc-calc-full #sc-step-housing{
-  min-height:calc(100vh - 64px);
+  min-height: calc(100vh - 64px);
   display:flex;
   align-items:center;
 }
 
 /* Paso mapa fullscreen */
 body.sc-calc-full #sc-step-map{
-  min-height:calc(100vh - 64px);
-  height:calc(100vh - 64px);
+  min-height: calc(100vh - 64px);
+  height: calc(100vh - 64px);
 }
 
-/* Lead y pantallas finales centradas */
+/* Lead + Loading + Result centrados */
 body.sc-calc-full #sc-step-lead,
 body.sc-calc-full #sc-step-loading,
 body.sc-calc-full #sc-step-result{
-  min-height:calc(100vh - 64px);
+  min-height: calc(100vh - 64px);
   display:flex;
   align-items:center;
 }
 
-/* Wrapper para centrar tarjetas (loading/result) */
+/* wrapper para centrar tarjetas */
 .sc-fullscreen-wrap{
   width:100%;
   padding:24px 16px;
@@ -87,20 +179,18 @@ body.sc-calc-full #sc-step-result{
 
 /* Loading/Result sin padding raro */
 #sc-step-loading,
-#sc-step-result{
-  padding:0 !important;
-}
+#sc-step-result{ padding:0 !important; }
 
 /* Spinner */
 .sc-spin{ animation: scspin 1s linear infinite; }
 @keyframes scspin{ to{ transform: rotate(360deg); } }
 
-/* =========================
+/* ======================================================
    MAPA: capas y overlay
-========================= */
-
+====================================================== */
 #sc-step-map{ position:relative; width:100%; }
 #scMap{ position:absolute; inset:0; z-index:10; }
+
 .sc-overlay{ position:absolute; left:0; right:0; top:0; z-index:50; }
 .sc-hints{ position:absolute; left:0; right:0; bottom:0; z-index:50; }
 
@@ -114,12 +204,28 @@ body.sc-calc-full #sc-step-result{
 /* Ocultamos toolbar de geoman */
 .leaflet-pm-toolbar{ display:none !important; }
 
-/* =========================
-   PASO 1: selección vivienda
-========================= */
+/* tarjetita overlay mapa más pro */
+.sc-overlay .sc-card{
+  border-radius: 26px;
+  border: 1px solid rgba(15,23,42,.10);
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 70px -55px rgba(15,23,42,.45);
+}
 
+/* ======================================================
+   PASO 1: selección vivienda
+====================================================== */
+.sc-housing-card{
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.sc-housing-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 60px -50px rgba(15,23,42,.30);
+}
 .sc-housing-card.is-selected{
-  background:#0f172a !important;
+  background: var(--slate-900) !important;
   color:#fff !important;
   border-color: rgba(15,23,42,.45) !important;
   box-shadow: 0 18px 50px -30px rgba(15,23,42,.35) !important;
@@ -128,66 +234,41 @@ body.sc-calc-full #sc-step-result{
 .sc-housing-card.is-selected h3{ color:#fff !important; }
 .sc-housing-card.is-selected [data-housing-sub]{ color: rgba(255,255,255,.78) !important; }
 
-/* =========================
-   PASO 3 · GASTO MENSUAL (sc-bill-card2)
-========================= */
-
+/* ======================================================
+   PASO 3: GASTO MENSUAL (sc-bill-card2)
+====================================================== */
 .sc-bill-card2{
   position:relative;
   transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
 }
-
-.sc-bill-card2:hover{
-  transform:translateY(-3px);
-}
+.sc-bill-card2:hover{ transform: translateY(-3px); }
 
 .sc-bill-card2.is-selected{
   background:#fff !important;
-  border-color: rgba(245,158,11,.55) !important;
-  box-shadow: 0 18px 55px -45px rgba(15,23,42,.35), 0 22px 70px -55px rgba(245,158,11,.45) !important;
+  border-color: rgba(245,158,11,.65) !important;
+  box-shadow: 0 18px 55px -45px rgba(15,23,42,.35),
+              0 22px 70px -55px rgba(245,158,11,.45) !important;
   transform: translateY(-2px);
-  outline: 2px solid rgba(245,158,11,.28);
+  outline: 2px solid rgba(245,158,11,.22);
   outline-offset: 2px;
 }
-
 .sc-bill-card2.is-selected::after{
   content:"";
   position:absolute;
   inset:0;
   border-radius: 24px;
   pointer-events:none;
-  background: linear-gradient(180deg, rgba(245,158,11,.08), transparent 45%);
+  background: linear-gradient(180deg, rgba(245,158,11,.10), transparent 45%);
 }
-
 .sc-bill-card2.is-selected .inline-flex{
   border-color: rgba(245,158,11,.28) !important;
   background: rgba(245,158,11,.10) !important;
 }
 
-/* =========================
-   Animaciones (si las usas)
-========================= */
-
-.sc-anim-stage {
-  transition: opacity .22s ease, transform .22s ease;
-  will-change: opacity, transform;
-}
-
-.sc-anim-out {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.sc-anim-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* =========================
-   Botones resultado (estilo pro)
-========================= */
-
-.sc-btn {
+/* ======================================================
+   Botones resultado (y reutilizables)
+====================================================== */
+.sc-btn{
   position: relative;
   overflow: hidden;
   border-radius: 14px;
@@ -198,139 +279,151 @@ body.sc-calc-full #sc-step-result{
   will-change: transform;
   transform: translateZ(0);
 }
-
-/* Hover = levanta + sombra */
-.sc-btn:hover {
+.sc-btn:hover{
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(0,0,0,.10);
   filter: brightness(1.02);
 }
-
-/* Click = hunde */
-.sc-btn:active {
+.sc-btn:active{
   transform: translateY(0px) scale(.98);
   box-shadow: 0 10px 18px rgba(0,0,0,.08);
 }
-
-/* Focus accesible */
-.sc-btn:focus-visible {
+.sc-btn:focus-visible{
   outline: 3px solid rgba(37,99,235,.35);
   outline-offset: 3px;
 }
-
-/* Shine suave en hover */
-.sc-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
+.sc-btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
   background: radial-gradient(600px 60px at -10% 0%, rgba(255,255,255,.28), transparent 60%);
   opacity: 0;
   transition: opacity .25s ease;
-  pointer-events: none;
+  pointer-events:none;
 }
-.sc-btn:hover::before { opacity: 1; }
+.sc-btn:hover::before{ opacity: 1; }
 
 /* Ripple */
-.sc-ripple {
-  position: absolute;
-  border-radius: 999px;
+.sc-ripple{
+  position:absolute;
+  border-radius:999px;
   transform: translate(-50%, -50%) scale(0);
-  pointer-events: none;
-  opacity: .45;
+  pointer-events:none;
+  opacity:.45;
   animation: scRipple .6s ease-out forwards;
   background: rgba(255,255,255,.85);
 }
-
-@keyframes scRipple {
-  to { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+@keyframes scRipple{
+  to{ transform: translate(-50%, -50%) scale(10); opacity:0; }
+}
+@media (prefers-reduced-motion: reduce){
+  .sc-btn, .sc-btn:hover, .sc-btn:active{ transition:none; transform:none; }
+  .sc-ripple{ display:none; }
 }
 
-/* Respeta usuarios con reduce motion */
-@media (prefers-reduced-motion: reduce) {
-  .sc-btn, .sc-btn:hover, .sc-btn:active { transition: none; transform: none; }
-  .sc-ripple { display: none; }
-}
-
-/* Transiciones de pasos */
-.sc-step {
+/* ======================================================
+   Transiciones (si las usas)
+====================================================== */
+.sc-step{
   opacity: 1;
   transform: translateX(0) translateY(0);
   transition: opacity .35s ease, transform .35s ease;
 }
-
-/* Salir hacia la derecha */
-.sc-exit-right {
-  opacity: 0;
-  transform: translateX(40px);
-}
-
-/* Entrar desde la izquierda */
-.sc-enter-left {
-  opacity: 0;
-  transform: translateX(-40px);
-}
-
-/* Fade simple */
-.sc-fade-out {
-  opacity: 0;
-}
-
-/* Cerrar calculadora */
-.sc-calc-exit {
-  opacity: 0;
+.sc-exit-right{ opacity:0; transform: translateX(40px); }
+.sc-enter-left{ opacity:0; transform: translateX(-40px); }
+.sc-fade-out{ opacity:0; }
+.sc-calc-exit{
+  opacity:0;
   transform: scale(.96);
   transition: opacity .35s ease, transform .35s ease;
 }
+@media (prefers-reduced-motion: reduce){
+  .sc-step, .sc-calc-exit{ transition:none; transform:none; }
+}
 
-@media (prefers-reduced-motion: reduce) {
-  .sc-step,
-  .sc-calc-exit {
-    transition: none;
-    transform: none;
-  }
+/* =========================
+   RESULTADO (mejora visual)
+========================= */
+.sc-result-shell{
+  position: relative;
+  overflow: hidden;
+}
+.sc-result-shell::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:
+    radial-gradient(1100px 600px at 12% 0%, rgba(245,158,11,.10), transparent 55%),
+    radial-gradient(1100px 600px at 95% 8%, rgba(16,185,129,.08), transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+.sc-result-shell > *{ position: relative; z-index:1; }
+
+.sc-result-badge{
+  background: rgba(16,185,129,.10);
+  border: 1px solid rgba(16,185,129,.25);
+  color: #065f46;
+  box-shadow: 0 18px 55px -55px rgba(16,185,129,.55);
+  font-weight: 900;
+}
+
+.sc-result-card{
+  box-shadow: 0 18px 70px -75px rgba(15,23,42,.45);
+}
+
+.sc-mini-pill{
+  background: rgba(245,158,11,.14);
+  border: 1px solid rgba(245,158,11,.28);
+  color: rgba(120,53,15,.95);
+}
+
+.sc-metric{
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.sc-metric:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 28px 85px -80px rgba(15,23,42,.55);
+}
+.sc-metric-top{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+}
+.sc-ico{
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display:grid;
+  place-items:center;
+  background: rgba(15,23,42,.04);
+  border: 1px solid rgba(15,23,42,.10);
+}
+
+.sc-pricehero{
+  box-shadow: 0 26px 90px -85px rgba(15,23,42,.55);
+}
+
+/* coverage bar (relleno por JS) */
+#resCoverageBar{
+  width: 0%;
+}
+
+.sc-mini-stat{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  border: 1px solid rgba(15,23,42,.10);
+  background: rgba(248,250,252,.65);
+  border-radius: 18px;
+  padding: 14px 14px;
+}
+.sc-mini-ico{
+  width:42px;height:42px;
+  border-radius: 14px;
+  display:grid;place-items:center;
+  background: rgba(15,23,42,.04);
+  border: 1px solid rgba(15,23,42,.10);
 }
 
 
-
-
-#seo.hidden{
-  display:none;
-}
-
-
-body.sc-seo-full{
-  overflow:hidden;
-}
-
-
-body.sc-seo-full > *:not(#seo){
-  display:none !important;
-}
-
-
-body.sc-seo-full #seo{
-  display:block !important;
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-
-  min-height:100vh;
-  height:100vh;
-
-  padding:0 !important;
-  margin:0 !important;
-
-  overflow:auto;
-  -webkit-overflow-scrolling: touch;
-  background:#ffffff;
-}
-
-body.sc-seo-full #seo .sticky{
-  position:sticky;
-  top:0;
-  z-index:60;
-}
-
-body.sc-seo-full #seo .hidden{
-  display:none !important;
-}
