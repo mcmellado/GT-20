@@ -9,7 +9,7 @@
 
 /* Cuando entramos en la calculadora */
 body.sc-calc-full{
-  overflow:hidden;
+  overflow:hidden; /* bloquea scroll del fondo */
 }
 
 /* Oculta TODO lo demás fuera de la calculadora */
@@ -20,11 +20,18 @@ body.sc-calc-full > *:not(#calculadora){
 /* Calculadora ocupa toda la pantalla */
 body.sc-calc-full #calculadora{
   display:block !important;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+
   min-height:100vh;
   height:100vh;
+
   padding:0 !important;
   margin:0 !important;
+
   overflow:auto;          /* importantísimo para scroll interno */
+  -webkit-overflow-scrolling: touch; /* iOS */
   background:#f8fafc;     /* slate-50 */
 }
 
@@ -88,6 +95,38 @@ body.sc-calc-full #sc-step-result{
 .sc-spin{ animation: scspin 1s linear infinite; }
 @keyframes scspin{ to{ transform: rotate(360deg); } }
 
+/* =========================
+   MAPA: capas y overlay
+========================= */
+
+#sc-step-map{ position:relative; width:100%; }
+#scMap{ position:absolute; inset:0; z-index:10; }
+.sc-overlay{ position:absolute; left:0; right:0; top:0; z-index:50; }
+.sc-hints{ position:absolute; left:0; right:0; bottom:0; z-index:50; }
+
+#suggest{
+  position:absolute !important;
+  left:0; right:0;
+  top:calc(100% + 8px);
+  z-index:99999 !important;
+}
+
+/* Ocultamos toolbar de geoman */
+.leaflet-pm-toolbar{ display:none !important; }
+
+/* =========================
+   PASO 1: selección vivienda
+========================= */
+
+.sc-housing-card.is-selected{
+  background:#0f172a !important;
+  color:#fff !important;
+  border-color: rgba(15,23,42,.45) !important;
+  box-shadow: 0 18px 50px -30px rgba(15,23,42,.35) !important;
+  transform: translateY(-2px);
+}
+.sc-housing-card.is-selected h3{ color:#fff !important; }
+.sc-housing-card.is-selected [data-housing-sub]{ color: rgba(255,255,255,.78) !important; }
 
 /* =========================
    PASO 3 · GASTO MENSUAL (sc-bill-card2)
@@ -124,3 +163,179 @@ body.sc-calc-full #sc-step-result{
   border-color: rgba(245,158,11,.28) !important;
   background: rgba(245,158,11,.10) !important;
 }
+
+/* =========================
+   Animaciones (si las usas)
+========================= */
+
+.sc-anim-stage {
+  transition: opacity .22s ease, transform .22s ease;
+  will-change: opacity, transform;
+}
+
+.sc-anim-out {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.sc-anim-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================
+   Botones resultado (estilo pro)
+========================= */
+
+.sc-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Hover = levanta + sombra */
+.sc-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,0,0,.10);
+  filter: brightness(1.02);
+}
+
+/* Click = hunde */
+.sc-btn:active {
+  transform: translateY(0px) scale(.98);
+  box-shadow: 0 10px 18px rgba(0,0,0,.08);
+}
+
+/* Focus accesible */
+.sc-btn:focus-visible {
+  outline: 3px solid rgba(37,99,235,.35);
+  outline-offset: 3px;
+}
+
+/* Shine suave en hover */
+.sc-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(600px 60px at -10% 0%, rgba(255,255,255,.28), transparent 60%);
+  opacity: 0;
+  transition: opacity .25s ease;
+  pointer-events: none;
+}
+.sc-btn:hover::before { opacity: 1; }
+
+/* Ripple */
+.sc-ripple {
+  position: absolute;
+  border-radius: 999px;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  opacity: .45;
+  animation: scRipple .6s ease-out forwards;
+  background: rgba(255,255,255,.85);
+}
+
+@keyframes scRipple {
+  to { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+}
+
+/* Respeta usuarios con reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .sc-btn, .sc-btn:hover, .sc-btn:active { transition: none; transform: none; }
+  .sc-ripple { display: none; }
+}
+
+/* Transiciones de pasos */
+.sc-step {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+/* Salir hacia la derecha */
+.sc-exit-right {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+/* Entrar desde la izquierda */
+.sc-enter-left {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+/* Fade simple */
+.sc-fade-out {
+  opacity: 0;
+}
+
+/* Cerrar calculadora */
+.sc-calc-exit {
+  opacity: 0;
+  transform: scale(.96);
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-step,
+  .sc-calc-exit {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* =========================
+   SEO FULLSCREEN (modo “solo SEO”)
+========================= */
+
+/* Estado normal: seo invisible */
+#seo.hidden{
+  display:none;
+}
+
+/* Cuando entramos en SEO */
+body.sc-seo-full{
+  overflow:hidden;
+}
+
+/* Oculta TODO lo demás fuera del SEO */
+body.sc-seo-full > *:not(#seo){
+  display:none !important;
+}
+
+/* SEO ocupa toda la pantalla */
+body.sc-seo-full #seo{
+  display:block !important;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+
+  min-height:100vh;
+  height:100vh;
+
+  padding:0 !important;
+  margin:0 !important;
+
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+  background:#ffffff;
+}
+
+/* Barra superior sticky siempre visible */
+body.sc-seo-full #seo .sticky{
+  position:sticky;
+  top:0;
+  z-index:60;
+}
+
+/* Si algo dentro del SEO tiene .hidden, que se oculte sí o sí */
+body.sc-seo-full #seo .hidden{
+  display:none !important;
+}
+

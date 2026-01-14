@@ -178,10 +178,11 @@
             Entrar en la calculadora
           </button>
 
-          <a href="#seo"
-             class="sc-btn-shine sc-focus inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm hover:bg-slate-50">
+          <button id="enterSeo" type="button"
+            class="sc-btn-shine sc-focus inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-sm hover:bg-slate-50">
             Ver información y FAQ
-          </a>
+          </button>
+        
 
           <div class="w-full text-xs text-slate-600">
             *Cifra orientativa. El precio final se ajusta con un estudio técnico.
@@ -208,8 +209,157 @@
   </section>
 
   {{-- SEO --}}
-  <section id="seo" class="py-14 text-slate-900" aria-label="Preguntas frecuentes y contenido informativo">
-    {{-- ... pega aquí tu bloque SEO completo ... --}}
+
+  <section id="seo" class="hidden py-0" aria-label="Precio de placas solares">
+
+    {{-- barra superior para salir --}}
+    <div class="sticky top-0 z-[60] border-b border-slate-200 bg-white/90 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <div class="text-sm font-extrabold text-slate-900">Información y FAQ</div>
+
+        <button id="exitSeo" type="button"
+          class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-900 hover:bg-slate-50">
+          ✕ Cerrar
+        </button>
+      </div>
+    </div>
+
+    <div class="py-16 bg-white text-slate-900">
+      <div class="mx-auto max-w-4xl px-4 space-y-8">
+          <div class="mx-auto max-w-4xl px-4 space-y-8">
+
+        <h2 class="text-3xl font-extrabold">
+          ¿Cómo calculamos el precio de tus placas solares?
+        </h2>
+
+        <p>
+          El precio de tus placas solares lo calculamos a partir de tu consumo de luz, la orientación de tu tejado y tipo de residencia. Nuestra calculadora cruza estos datos con el coste actual de los equipos, la mano de obra... Así obtenemos un precio orientativo de instalación de placas solares ajustado a tu vivienda.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          Qué datos te pedimos para hacer el presupuesto
+        </h3>
+
+        <p>
+          Para calcular el precio de las placas solares te pedimos sólo los datos imprescindibles: tu consumo medio mensual, el tipo de vivienda, la orientación de tu tejado... Con esta información podemos estimar cuántos paneles necesitas, la potencia ideal de la instalación y un rango de precios realista para tu caso.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          Qué incluye el precio orientativo de la instalación
+        </h3>
+
+        <p>
+          El precio orientativo de la instalación de placas solares incluye los paneles, inversor, estructura, cableado, mano de obra de una instalación completa. De esta forma sabes desde el principio cuánto cuesta poner placas solares.
+        </p>
+
+        <h2 class="text-3xl font-extrabold">
+          Factores que influyen en el precio de las placas solares
+        </h2>
+
+        <p>
+          El precio de las placas solares no es igual para todas las viviendas. Depende del consumo eléctrico, el espacio disponible en el tejado y si añades baterías u otros extras. Conocer estos factores te ayuda a entender por qué una instalación puede ser más barata o más cara y a decidir qué opción te conviene más.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          ¿Cómo afectan tu consumo de luz y la potencia que necesitas al precio de tus paneles solares?
+        </h3>
+
+        <p>
+          Cuanto mayor es tu consumo de luz, mayor potencia debe tener la instalación y, por tanto, sube el precio de las placas solares. La clave está en dimensionar bien: una instalación demasiado pequeña se queda corta, y una sobredimensionada encarece la inversión sin necesidad. Por eso ajustamos la potencia a tu consumo real para equilibrar coste y ahorro.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          ¿Cómo afectan tipo de tejado, orientación y sombras en el precio de tus paneles solares?
+        </h3>
+
+        <p>
+          El tipo de tejado, su orientación y las sombras cercanas influyen directamente en el rendimiento de las placas solares y en el precio de la instalación. Un tejado sencillo, bien orientado y sin sombras abarata la estructura y la mano de obra. En cambio, tejados complejos, con muchas aguas o con obstáculos pueden requerir más material y tiempo de montaje.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          Con o sin baterías, aerotermia y otros extras
+        </h3>
+
+        <p>
+          Añadir baterías solares, aerotermia u otros extras aumenta el precio inicial de la instalación, pero también mejora mucho el confort y el ahorro a largo plazo. Las baterías te permiten aprovechar más la energía de tus placas solares durante cortes de la red eléctrica o durante la noche, y la aerotermia reduce el gasto en calefacción y agua caliente. Nuestra calculadora te muestra cómo cada combinación encaja mejor con tu vivienda y tu bolsillo.
+        </p>
+
+        <h2 class="text-3xl font-extrabold">
+          Ejemplos de precio de instalaciones de placas solares
+        </h2>
+
+        <p>
+          Para que te hagas una idea clara, te mostramos ejemplos reales de precio de instalaciones de placas solares según el tipo de vivienda. Así puedes comparar tu caso con otros parecidos y ver un rango de inversión habitual. Recuerda que se trata de precios orientativos, pero muy útiles para decidir si dar el paso al autoconsumo.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          Precio de placas solares para una casa unifamiliar
+        </h3>
+
+        <p>
+          En una casa unifamiliar, el precio de las placas solares suele ser más competitivo porque hay más superficie disponible y el tejado suele ser propio. Las instalaciones típicas son suficientes para cubrir buena parte del consumo de una familia. La inversión se amortiza en pocos años gracias al ahorro mensual en la factura.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          Precio de placas solares para un piso o ático
+        </h3>
+
+        <p>
+          En pisos o áticos, el precio de las placas solares depende de si se trata de una instalación individual en la azotea o de un proyecto compartido en la comunidad. El espacio suele ser más limitado, por lo que se buscan soluciones muy eficientes. Aun así, es posible reducir una parte importante de la factura con una instalación bien diseñada.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          Precio de placas solares para negocio o local comercial
+        </h3>
+
+        <p>
+          En negocios y locales comerciales, el precio de la instalación de placas solares está muy ligado a los horarios de consumo. Como muchas empresas consumen más durante el día, aprovechan mejor la producción solar y recuperan la inversión antes. Una buena instalación fotovoltaica puede recortar de forma notable los costes fijos de electricidad.
+        </p>
+
+        <h2 class="text-3xl font-extrabold">
+          ¿Es rentable el precio de las placas solares en tu caso?
+        </h2>
+
+        <p>
+          La verdadera pregunta no es sólo cuánto cuestan las placas solares, sino si son rentables para ti. Analizamos tu consumo, tu tarifa eléctrica y creamos el precio estimado de la instalación para calcular el tiempo de amortización. Así sabrás en cuántos años recuperarás la inversión y cuánto podrías ahorrar a partir de entonces.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          En cuánto tiempo puedes amortizar tu instalación
+        </h3>
+
+        <p>
+          El tiempo de amortización de una instalación de placas solares suele situarse entre 5 y 10 años, según el consumo y el precio final. Cuanto más alto sea tu gasto actual en luz, antes recuperarás la inversión. Nuestra simulación te muestra una estimación del plazo de amortización para que puedas decidir con datos.
+        </p>
+
+        <h3 class="text-xl font-bold">
+          Cuánto puedes ahorrar cada año en tu factura de luz
+        </h3>
+
+        <p>
+          Con una instalación de placas solares bien dimensionada puedes reducir tu factura de luz entre un 50% y un 70%, e incluso llegar a factura 0. Ese ahorro anual es lo que hace que el precio de las placas solares sea rentable a medio plazo. Verlo en números te ayudará a entender el impacto real en tu bolsillo.
+        </p>
+
+        <h2 class="text-3xl font-extrabold">
+          ¿Por qué pedir tu precio de placas solares con nosotros?
+        </h2>
+
+        <p>
+          Te ayudamos a calcular el precio de tus placas solares de forma clara, transparente y sin compromiso. Nuestro objetivo es que entiendas cada partida del presupuesto y sepas exactamente qué estás contratando. Te acompañamos desde el estudio inicial hasta la puesta en marcha de la instalación.
+        </p>
+
+        <ul class="list-disc pl-6 space-y-1">
+          <li><strong>Estudio personalizado sin compromiso</strong></li>
+          <li><strong>Financiación hasta 20 años</strong></li>
+          <li><strong>Instalación en 24 horas</strong></li>
+          <li><strong>Garantías de 25 años</strong></li>
+        </ul>
+
+      </div>
+      </div>
+    </div>
+  </section>
+
   </section>
 
   {{-- ======================================================
@@ -238,7 +388,7 @@
           <button type="button" data-housing="single"
             class="sc-housing-card rounded-3xl border border-slate-200 bg-white p-8 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20">
             <div class="text-4xl">🏠</div>
-            <h3 class="mt-4 text-lg font-extrabold">Vivienda unifamiliar</h3>
+            <h3 class="mt-4 text-lg font-extrabold">Vivienda</h3>
             <p class="mt-2 text-sm text-slate-600" data-housing-sub>Casa independiente con tejado propio.</p>
           </button>
 
@@ -672,13 +822,6 @@
 </section>
 
 <script>
-/* =========================================================
-   CALCULADORA (tu script) + Estimación estilo Massol (packs)
-   - Mantiene TODO tu flujo: vivienda -> mapa -> gasto -> lead
-   - Submit: lead -> loading -> result
-   - Cálculo: packs + consumo por gasto (como Massol)
-========================================================= */
-
 (() => {
   const $ = (id) => document.getElementById(id);
 
@@ -1060,31 +1203,60 @@
     };
 
     const showSuggest = (items) => {
-      if (!suggest) return;
-      if (!items.length) return hideSuggest();
-      suggest.innerHTML = items.map((r, i) => `
-        <button type="button" data-i="${i}" class="w-full px-4 py-3 text-left hover:bg-slate-50">
-          <div class="font-bold text-slate-900">${(r.display_name || '').split(',')[0]}</div>
-          <div class="text-xs text-slate-600">${r.display_name || ''}</div>
-        </button>
-      `).join('');
-      suggest.classList.remove('hidden');
-    };
+  if (!suggest) return;
+  if (!items.length) return hideSuggest();
+
+  const niceTitle = (r) => {
+    const a = r.address || {};
+    const road = a.road || a.pedestrian || a.footway || a.path || "";
+    const house = a.house_number ? ` ${a.house_number}` : "";
+    const place = a.city || a.town || a.village || a.municipality || a.county || "";
+    const prov  = a.state || "";
+    const title = `${road}${house}`.trim() || (r.display_name || "").split(",")[0];
+    const sub   = [place, prov].filter(Boolean).join(" · ");
+    return { title, sub };
+  };
+
+  suggest.innerHTML = items.map((r, i) => {
+    const { title, sub } = niceTitle(r);
+    return `
+      <button type="button" data-i="${i}" class="w-full px-4 py-3 text-left hover:bg-slate-50">
+        <div class="font-bold text-slate-900">${title}</div>
+        <div class="text-xs text-slate-600">${sub || (r.display_name || "")}</div>
+      </button>
+    `;
+  }).join("");
+
+  suggest.classList.remove('hidden');
+};
+
 
     const searchES = async (q) => {
-      const params = new URLSearchParams({
-        format:"json", limit:"6", q,
-        countrycodes:"es",
-        addressdetails:"1",
-        "accept-language":"es"
-      });
-      params.set("viewbox", "-9.5,35.5,3.5,43.9");
-      params.set("bounded", "1");
-      const url = `https://nominatim.openstreetmap.org/search?${params.toString()}`;
-      const res = await fetch(url, { headers: { "Accept":"application/json" } });
-      if (!res.ok) throw new Error(`Nominatim HTTP ${res.status}`);
-      return await res.json();
-    };
+  const q2 = /,\s*españa/i.test(q) ? q : `${q}, España`;
+
+  const params = new URLSearchParams({
+    format: "jsonv2",          
+    limit: "10",               
+    q: q2,
+    countrycodes: "es",
+    addressdetails: "1",
+    "accept-language": "es",
+    extratags: "1",
+    namedetails: "1",
+    dedupe: "0"
+  });
+
+  const url = `https://nominatim.openstreetmap.org/search?${params.toString()}`;
+  const res = await fetch(url, {
+    headers: {
+      "Accept": "application/json",
+      "User-Agent": "SolarCalculator/1.0 (contacto@tudominio.com)" 
+    }
+  });
+  if (!res.ok) throw new Error(`Nominatim HTTP ${res.status}`);
+  return await res.json();
+};
+
 
     if (addr) {
       addr.addEventListener('input', () => {
@@ -1412,8 +1584,50 @@ if (leadForm) {
   }
 
 })();
-</script>
+(() => {
+  const $ = (id) => document.getElementById(id);
 
+  const enterSeo = $('enterSeo');
+  const exitSeo  = $('exitSeo');
+  const seoSection = $('seo');
+
+  const hero = $('presentacion');
+
+  const showSeo = () => {
+    if (!seoSection) return;
+
+    // si estabas en calculadora, salimos
+    document.body.classList.remove('sc-calc-full');
+    $('calculadora')?.classList.add('hidden');
+
+    // entramos en SEO
+    document.body.classList.add('sc-seo-full');
+    seoSection.classList.remove('hidden');
+
+    seoSection.scrollIntoView({ behavior: 'instant', block: 'start' });
+  };
+
+  const hideSeo = () => {
+    if (!seoSection) return;
+    document.body.classList.remove('sc-seo-full');
+    seoSection.classList.add('hidden');
+    hero?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  enterSeo?.addEventListener('click', showSeo);
+  exitSeo?.addEventListener('click', hideSeo);
+
+  // ESC cierra lo que esté abierto
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+
+    if (document.body.classList.contains('sc-seo-full')) {
+      hideSeo();
+      return;
+    }
+  });
+})();
+</script>
 
 
 </body>
