@@ -290,26 +290,24 @@ body.sc-calc-full #sc-step-result{
   }
 }
 
-/* =========================
-   SEO FULLSCREEN (modo “solo SEO”)
-========================= */
 
-/* Estado normal: seo invisible */
+
+
 #seo.hidden{
   display:none;
 }
 
-/* Cuando entramos en SEO */
+
 body.sc-seo-full{
   overflow:hidden;
 }
 
-/* Oculta TODO lo demás fuera del SEO */
+
 body.sc-seo-full > *:not(#seo){
   display:none !important;
 }
 
-/* SEO ocupa toda la pantalla */
+
 body.sc-seo-full #seo{
   display:block !important;
   position: fixed;
@@ -327,15 +325,12 @@ body.sc-seo-full #seo{
   background:#ffffff;
 }
 
-/* Barra superior sticky siempre visible */
 body.sc-seo-full #seo .sticky{
   position:sticky;
   top:0;
   z-index:60;
 }
 
-/* Si algo dentro del SEO tiene .hidden, que se oculte sí o sí */
 body.sc-seo-full #seo .hidden{
   display:none !important;
 }
-

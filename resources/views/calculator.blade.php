@@ -1230,33 +1230,56 @@
   suggest.classList.remove('hidden');
 };
 
+  // Normaliza búsquedas tipo:
+// "calle jurel bloque 4 segundo b Chipiona" -> "calle jurel Chipiona"
+// (Nominatim suele ignorar bloque/portal/escalera/piso/letra)
+const normalizeESQuery = (q) => {
+  let s = (q || "").trim();
+  if (!s) return s;
 
-    const searchES = async (q) => {
-  const q2 = /,\s*españa/i.test(q) ? q : `${q}, España`;
+  // espacios limpios
+  s = s.replace(/\s+/g, " ");
+
+  // elimina tokens típicos de bloques/pisos/escaleras + su posible número/letra
+  s = s.replace(
+    /\b(bloque|blq|portal|port|escalera|esc|piso|planta|letra|bajo|principal|ático|1º|2º|3º|4º|5º|6º|7º|8º|9º|10º|primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno|décimo)\b\.?\s*[a-z0-9ºª\-]*/gi,
+    " "
+  );
+
+  // vuelve a compactar espacios
+  s = s.replace(/\s+/g, " ").trim();
+
+  return s;
+};
+
+const searchES = async (q) => {
+  const cleaned = normalizeESQuery(q);
+
+  const q2 = /,\s*españa/i.test(cleaned) ? cleaned : `${cleaned}, España`;
 
   const params = new URLSearchParams({
-    format: "jsonv2",          
-    limit: "10",               
+    format: "jsonv2",
+    limit: "10",
     q: q2,
     countrycodes: "es",
     addressdetails: "1",
     "accept-language": "es",
     extratags: "1",
     namedetails: "1",
-    dedupe: "0"
+    dedupe: "0",
   });
 
   const url = `https://nominatim.openstreetmap.org/search?${params.toString()}`;
+
   const res = await fetch(url, {
     headers: {
-      "Accept": "application/json",
-      "User-Agent": "SolarCalculator/1.0 (contacto@tudominio.com)" 
+      "Accept": "application/json"
     }
   });
+
   if (!res.ok) throw new Error(`Nominatim HTTP ${res.status}`);
   return await res.json();
 };
-
 
     if (addr) {
       addr.addEventListener('input', () => {
@@ -1596,11 +1619,9 @@ if (leadForm) {
   const showSeo = () => {
     if (!seoSection) return;
 
-    // si estabas en calculadora, salimos
     document.body.classList.remove('sc-calc-full');
     $('calculadora')?.classList.add('hidden');
 
-    // entramos en SEO
     document.body.classList.add('sc-seo-full');
     seoSection.classList.remove('hidden');
 
