@@ -6,6 +6,8 @@
   <title>Calculadora de placas solares | Precio orientativo en 1 minuto</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Calcula el precio orientativo de tu instalación de placas solares en 1 minuto." />
+  <link rel="preload" as="image" href="/images/placa_solar_fondo_faq.jpg">
+
 
   {{-- Tailwind --}}
   <script src="https://cdn.tailwindcss.com"></script>
@@ -210,155 +212,233 @@
 
   {{-- SEO --}}
 
-  <section id="seo" class="hidden py-0" aria-label="Precio de placas solares">
 
-    {{-- barra superior para salir --}}
-    <div class="sticky top-0 z-[60] border-b border-slate-200 bg-white/90 backdrop-blur">
-      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <div class="text-sm font-extrabold text-slate-900">Información y FAQ</div>
+  <section
+  id="seo"
+  class="hidden fixed inset-0 z-[80] bg-white text-slate-900"
+  aria-label="Precio de placas solares"
+>
+  <!-- TOP BAR -->
+  <div class="sticky top-0 z-[90] border-b border-slate-200 bg-white/90 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 text-white text-sm font-black">
+          i
+        </span>
+        <div class="leading-tight">
+          <div class="text-sm font-extrabold text-slate-900">Información y preguntas frecuentes</div>
+          <div class="text-xs text-slate-500">Precio orientativo · Factores · Rentabilidad</div>
+        </div>
+      </div>
 
-        <button id="exitSeo" type="button"
-          class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-900 hover:bg-slate-50">
-          ✕ Cerrar
-        </button>
+      <button
+        id="exitSeo"
+        type="button"
+        class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-900 hover:bg-slate-50 active:scale-[0.99]"
+      >
+        ✕ Cerrar
+      </button>
+    </div>
+  </div>
+
+  <!-- SCROLL AREA (solo aquí se hace scroll) -->
+  <div id="seoScroll" class="h-[calc(100vh-56px)] overflow-y-auto">
+    <div class="bg-white py-12 sm:py-16">
+      <div class="mx-auto max-w-4xl px-4 space-y-10">
+
+        <!-- INTRO -->
+        <header class="space-y-4">
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            ¿Cómo calculamos el precio de tus placas solares?
+          </h2>
+          <p class="text-lg text-slate-600 leading-relaxed">
+            Calculamos el precio de tus placas solares a partir de tu consumo eléctrico,
+            el tipo de vivienda y las características de tu tejado. Con estos datos
+            obtenemos un precio orientativo realista y adaptado a tu caso.
+          </p>
+        </header>
+
+        <!-- BLOQUES (cards suaves) -->
+    
+        <div class="space-y-10">
+        <section class="grid gap-3 sm:grid-cols-12 sm:gap-8">
+          <h3 class="sm:col-span-4 text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">
+            Qué datos te pedimos para hacer el presupuesto
+          </h3>
+
+          <p class="sm:col-span-8 text-slate-700 leading-relaxed">
+            Solo solicitamos la información imprescindible: consumo mensual,
+            tipo de vivienda y orientación del tejado. Con ello estimamos
+            potencia, número de paneles y un rango de precios realista.
+          </p>
+        </section>
+
+        <section class="grid gap-3 sm:grid-cols-12 sm:gap-8">
+          <h3 class="sm:col-span-4 text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">
+            Qué incluye el precio orientativo de la instalación
+          </h3>
+
+          <p class="sm:col-span-8 text-slate-700 leading-relaxed">
+            Incluye paneles solares, inversor, estructura, cableado
+            y mano de obra de una instalación completa.
+            Así sabes desde el principio cuánto cuesta instalar placas solares.
+          </p>
+        </section>
+      </div>
+
+
+        <!-- SEPARADOR -->
+        <div class="flex items-center gap-3 pt-2">
+          <span class="h-px w-full bg-slate-200"></span>
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Precio</span>
+          <span class="h-px w-full bg-slate-200"></span>
+        </div>
+
+        <!-- FACTORES -->
+        <section class="space-y-5">
+          <h2 class="text-3xl font-extrabold tracking-tight">
+            Factores que influyen en el precio de las placas solares
+          </h2>
+
+          <p class="text-slate-700 leading-relaxed">
+            El precio varía según el consumo eléctrico, el espacio disponible
+            en el tejado y los extras que se añadan, como baterías o aerotermia.
+          </p>
+
+          <div class="space-y-4">
+            <div class="rounded-3xl border border-slate-200 p-6 space-y-2">
+              <h3 class="text-xl font-extrabold">Consumo eléctrico y potencia necesaria</h3>
+              <p class="text-slate-700 leading-relaxed">
+                A mayor consumo, mayor potencia requerida. Dimensionar bien
+                la instalación es clave para equilibrar inversión y ahorro.
+              </p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 p-6 space-y-2">
+              <h3 class="text-xl font-extrabold">Tipo de tejado, orientación y sombras</h3>
+              <p class="text-slate-700 leading-relaxed">
+                Un tejado sencillo, bien orientado y sin sombras reduce costes.
+                Tejados complejos o con obstáculos requieren más estructura y tiempo.
+              </p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 p-6 space-y-2">
+              <h3 class="text-xl font-extrabold">Con o sin baterías y otros extras</h3>
+              <p class="text-slate-700 leading-relaxed">
+                Las baterías y la aerotermia aumentan el precio inicial,
+                pero mejoran el confort y el ahorro a largo plazo.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEPARADOR -->
+        <div class="flex items-center gap-3 pt-2">
+          <span class="h-px w-full bg-slate-200"></span>
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ejemplos</span>
+          <span class="h-px w-full bg-slate-200"></span>
+        </div>
+
+        <!-- EJEMPLOS -->
+        <section class="space-y-5">
+          <h2 class="text-3xl font-extrabold tracking-tight">
+            Ejemplos de precio según el tipo de vivienda
+          </h2>
+
+          <div class="grid gap-4 sm:grid-cols-3">
+            <div class="rounded-3xl border border-slate-200 p-6 space-y-2">
+              <h3 class="text-lg font-extrabold">Casa unifamiliar</h3>
+              <p class="text-slate-700 leading-relaxed">
+                Suelen ser las instalaciones más competitivas,
+                con buena amortización gracias al ahorro mensual.
+              </p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 p-6 space-y-2">
+              <h3 class="text-lg font-extrabold">Piso o ático</h3>
+              <p class="text-slate-700 leading-relaxed">
+                El precio depende de si la instalación es individual
+                o compartida en la comunidad.
+              </p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 p-6 space-y-2">
+              <h3 class="text-lg font-extrabold">Negocio o local comercial</h3>
+              <p class="text-slate-700 leading-relaxed">
+                Al consumir más durante el día, muchas empresas
+                recuperan la inversión más rápido.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEPARADOR -->
+        <div class="flex items-center gap-3 pt-2">
+          <span class="h-px w-full bg-slate-200"></span>
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Rentabilidad</span>
+          <span class="h-px w-full bg-slate-200"></span>
+        </div>
+
+        <!-- RENTABILIDAD -->
+        <section class="space-y-5">
+          <h2 class="text-3xl font-extrabold tracking-tight">
+            ¿Es rentable instalar placas solares?
+          </h2>
+
+          <div class="space-y-4">
+            <div class="rounded-3xl border border-slate-200 p-6 space-y-2">
+              <h3 class="text-xl font-extrabold">Tiempo de amortización</h3>
+              <p class="text-slate-700 leading-relaxed">
+                Normalmente entre 5 y 10 años, dependiendo del consumo
+                y el precio final de la instalación.
+              </p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 p-6 space-y-2">
+              <h3 class="text-xl font-extrabold">Ahorro anual en la factura</h3>
+              <p class="text-slate-700 leading-relaxed">
+                Puedes reducir tu factura eléctrica entre un 50% y un 70%,
+                e incluso llegar a factura 0.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA FINAL -->
+        <section class="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8 space-y-4">
+          <h2 class="text-2xl font-extrabold tracking-tight">
+            ¿Por qué pedir tu precio con nosotros?
+          </h2>
+
+          <ul class="grid gap-2 sm:grid-cols-2 text-slate-800">
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white border border-slate-200">✔</span>
+              <strong>Estudio personalizado sin compromiso</strong>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white border border-slate-200">✔</span>
+              <strong>Financiación hasta 20 años</strong>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white border border-slate-200">✔</span>
+              <strong>Instalación en 24 horas</strong>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white border border-slate-200">✔</span>
+              <strong>Garantías de hasta 25 años</strong>
+            </li>
+          </ul>
+        </section>
+
+        <!-- BOTTOM SPACE -->
+        <div class="h-10"></div>
+
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="py-16 bg-white text-slate-900">
-      <div class="mx-auto max-w-4xl px-4 space-y-8">
-          <div class="mx-auto max-w-4xl px-4 space-y-8">
 
-        <h2 class="text-3xl font-extrabold">
-          ¿Cómo calculamos el precio de tus placas solares?
-        </h2>
-
-        <p>
-          El precio de tus placas solares lo calculamos a partir de tu consumo de luz, la orientación de tu tejado y tipo de residencia. Nuestra calculadora cruza estos datos con el coste actual de los equipos, la mano de obra... Así obtenemos un precio orientativo de instalación de placas solares ajustado a tu vivienda.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          Qué datos te pedimos para hacer el presupuesto
-        </h3>
-
-        <p>
-          Para calcular el precio de las placas solares te pedimos sólo los datos imprescindibles: tu consumo medio mensual, el tipo de vivienda, la orientación de tu tejado... Con esta información podemos estimar cuántos paneles necesitas, la potencia ideal de la instalación y un rango de precios realista para tu caso.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          Qué incluye el precio orientativo de la instalación
-        </h3>
-
-        <p>
-          El precio orientativo de la instalación de placas solares incluye los paneles, inversor, estructura, cableado, mano de obra de una instalación completa. De esta forma sabes desde el principio cuánto cuesta poner placas solares.
-        </p>
-
-        <h2 class="text-3xl font-extrabold">
-          Factores que influyen en el precio de las placas solares
-        </h2>
-
-        <p>
-          El precio de las placas solares no es igual para todas las viviendas. Depende del consumo eléctrico, el espacio disponible en el tejado y si añades baterías u otros extras. Conocer estos factores te ayuda a entender por qué una instalación puede ser más barata o más cara y a decidir qué opción te conviene más.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          ¿Cómo afectan tu consumo de luz y la potencia que necesitas al precio de tus paneles solares?
-        </h3>
-
-        <p>
-          Cuanto mayor es tu consumo de luz, mayor potencia debe tener la instalación y, por tanto, sube el precio de las placas solares. La clave está en dimensionar bien: una instalación demasiado pequeña se queda corta, y una sobredimensionada encarece la inversión sin necesidad. Por eso ajustamos la potencia a tu consumo real para equilibrar coste y ahorro.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          ¿Cómo afectan tipo de tejado, orientación y sombras en el precio de tus paneles solares?
-        </h3>
-
-        <p>
-          El tipo de tejado, su orientación y las sombras cercanas influyen directamente en el rendimiento de las placas solares y en el precio de la instalación. Un tejado sencillo, bien orientado y sin sombras abarata la estructura y la mano de obra. En cambio, tejados complejos, con muchas aguas o con obstáculos pueden requerir más material y tiempo de montaje.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          Con o sin baterías, aerotermia y otros extras
-        </h3>
-
-        <p>
-          Añadir baterías solares, aerotermia u otros extras aumenta el precio inicial de la instalación, pero también mejora mucho el confort y el ahorro a largo plazo. Las baterías te permiten aprovechar más la energía de tus placas solares durante cortes de la red eléctrica o durante la noche, y la aerotermia reduce el gasto en calefacción y agua caliente. Nuestra calculadora te muestra cómo cada combinación encaja mejor con tu vivienda y tu bolsillo.
-        </p>
-
-        <h2 class="text-3xl font-extrabold">
-          Ejemplos de precio de instalaciones de placas solares
-        </h2>
-
-        <p>
-          Para que te hagas una idea clara, te mostramos ejemplos reales de precio de instalaciones de placas solares según el tipo de vivienda. Así puedes comparar tu caso con otros parecidos y ver un rango de inversión habitual. Recuerda que se trata de precios orientativos, pero muy útiles para decidir si dar el paso al autoconsumo.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          Precio de placas solares para una casa unifamiliar
-        </h3>
-
-        <p>
-          En una casa unifamiliar, el precio de las placas solares suele ser más competitivo porque hay más superficie disponible y el tejado suele ser propio. Las instalaciones típicas son suficientes para cubrir buena parte del consumo de una familia. La inversión se amortiza en pocos años gracias al ahorro mensual en la factura.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          Precio de placas solares para un piso o ático
-        </h3>
-
-        <p>
-          En pisos o áticos, el precio de las placas solares depende de si se trata de una instalación individual en la azotea o de un proyecto compartido en la comunidad. El espacio suele ser más limitado, por lo que se buscan soluciones muy eficientes. Aun así, es posible reducir una parte importante de la factura con una instalación bien diseñada.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          Precio de placas solares para negocio o local comercial
-        </h3>
-
-        <p>
-          En negocios y locales comerciales, el precio de la instalación de placas solares está muy ligado a los horarios de consumo. Como muchas empresas consumen más durante el día, aprovechan mejor la producción solar y recuperan la inversión antes. Una buena instalación fotovoltaica puede recortar de forma notable los costes fijos de electricidad.
-        </p>
-
-        <h2 class="text-3xl font-extrabold">
-          ¿Es rentable el precio de las placas solares en tu caso?
-        </h2>
-
-        <p>
-          La verdadera pregunta no es sólo cuánto cuestan las placas solares, sino si son rentables para ti. Analizamos tu consumo, tu tarifa eléctrica y creamos el precio estimado de la instalación para calcular el tiempo de amortización. Así sabrás en cuántos años recuperarás la inversión y cuánto podrías ahorrar a partir de entonces.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          En cuánto tiempo puedes amortizar tu instalación
-        </h3>
-
-        <p>
-          El tiempo de amortización de una instalación de placas solares suele situarse entre 5 y 10 años, según el consumo y el precio final. Cuanto más alto sea tu gasto actual en luz, antes recuperarás la inversión. Nuestra simulación te muestra una estimación del plazo de amortización para que puedas decidir con datos.
-        </p>
-
-        <h3 class="text-xl font-bold">
-          Cuánto puedes ahorrar cada año en tu factura de luz
-        </h3>
-
-        <p>
-          Con una instalación de placas solares bien dimensionada puedes reducir tu factura de luz entre un 50% y un 70%, e incluso llegar a factura 0. Ese ahorro anual es lo que hace que el precio de las placas solares sea rentable a medio plazo. Verlo en números te ayudará a entender el impacto real en tu bolsillo.
-        </p>
-
-        <h2 class="text-3xl font-extrabold">
-          ¿Por qué pedir tu precio de placas solares con nosotros?
-        </h2>
-
-        <p>
-          Te ayudamos a calcular el precio de tus placas solares de forma clara, transparente y sin compromiso. Nuestro objetivo es que entiendas cada partida del presupuesto y sepas exactamente qué estás contratando. Te acompañamos desde el estudio inicial hasta la puesta en marcha de la instalación.
-        </p>
-
-        <ul class="list-disc pl-6 space-y-1">
-          <li><strong>Estudio personalizado sin compromiso</strong></li>
-          <li><strong>Financiación hasta 20 años</strong></li>
-          <li><strong>Instalación en 24 horas</strong></li>
-          <li><strong>Garantías de 25 años</strong></li>
-        </ul>
-
-      </div>
-      </div>
-    </div>
-  </section>
 
   </section>
 
@@ -1018,6 +1098,11 @@
 </section>
 
 <script>
+/* =========================================================
+   CALCULADORA + MAPA + LEAD + LOADING + RESULT
+   (corregido: errores de sintaxis + behavior instant + null guards)
+========================================================= */
+
 (() => {
   const $ = (id) => document.getElementById(id);
 
@@ -1050,7 +1135,8 @@
     if (stepLoading) stepLoading.classList.add('hidden');
     if (stepResult) stepResult.classList.add('hidden');
 
-    calcSection.scrollIntoView({ behavior: 'instant', block: 'start' });
+    // 'instant' NO es válido. Usamos 'auto'
+    calcSection.scrollIntoView({ behavior: 'auto', block: 'start' });
 
     setTimeout(() => {
       if (window.__scLeafletMap) window.__scLeafletMap.invalidateSize(true);
@@ -1095,7 +1181,7 @@
   document.querySelectorAll('.sc-housing-card').forEach(card => {
     card.addEventListener('click', () => {
       const type = card.dataset.housing;
-      if (housingInput) housingInput.value = type;
+      if (housingInput) housingInput.value = type || '';
       setHousingSelectedUI(card);
       enableHousingContinue();
     });
@@ -1122,7 +1208,7 @@
     if (stepMapWrap) stepMapWrap.classList.remove('hidden');
     if (stepBill) stepBill.classList.add('hidden');
 
-    stepMapWrap.scrollIntoView({ behavior: 'smooth' });
+    stepMapWrap?.scrollIntoView({ behavior: 'smooth' });
 
     if (window.__scLeafletMap) {
       setTimeout(() => window.__scLeafletMap.invalidateSize(true), 80);
@@ -1149,7 +1235,6 @@
     if (billHelp) billHelp.textContent = "Perfecto. Pulsa continuar.";
   };
 
-  // tarjetas (incluye "No lo sé")
   document.querySelectorAll('.sc-bill-card2').forEach(card => {
     card.addEventListener('click', () => {
       clearBillSelectionUI();
@@ -1190,7 +1275,7 @@
 
       if (stepBill) stepBill.classList.add('hidden');
       if (stepLead) stepLead.classList.remove('hidden');
-      stepLead.scrollIntoView({ behavior: 'smooth' });
+      stepLead?.scrollIntoView({ behavior: 'smooth' });
 
       setTimeout(() => hint("Introduce tus datos para ver tu estimación."), 150);
     });
@@ -1199,9 +1284,9 @@
   // =========================
   // GUARDS
   // =========================
-  if (!window.L) return console.error("Leaflet no cargó");
-  if (!window.turf) return console.error("Turf no cargó");
-  if (!$('scMap')) return console.error("#scMap no existe");
+  if (!window.L)   { console.error("Leaflet no cargó"); return; }
+  if (!window.turf){ console.error("Turf no cargó"); return; }
+  if (!$('scMap')) { console.error("#scMap no existe"); return; }
 
   // =========================
   // Cargar Geoman (leaflet.pm)
@@ -1301,14 +1386,19 @@
 
     const updateArea = () => {
       if (!roofLayer) return clearStored();
+
       const gj = roofLayer.toGeoJSON();
       const area = Math.round(turf.area(gj));
+
       if (areaEl) areaEl.textContent = area.toLocaleString('es-ES');
-      $('sc_area_m2').value = area;
-      $('sc_geojson').value = JSON.stringify(gj);
+
+      const areaInput = $('sc_area_m2'); if (areaInput) areaInput.value = String(area);
+      const geoInput  = $('sc_geojson'); if (geoInput) geoInput.value = JSON.stringify(gj);
+
       const c = roofLayer.getBounds().getCenter();
-      $('sc_lat').value = c.lat;
-      $('sc_lng').value = c.lng;
+      const latEl = $('sc_lat'); if (latEl) latEl.value = String(c.lat);
+      const lngEl = $('sc_lng'); if (lngEl) lngEl.value = String(c.lng);
+
       setNextEnabled(area > 0);
       setClearEnabled(true);
       setDrawLabel(true);
@@ -1318,7 +1408,7 @@
       try { map.pm.disableDraw('Polygon'); } catch {}
       if (roofLayer) {
         try { roofLayer.pm.disable(); } catch {}
-        map.removeLayer(roofLayer);
+        try { map.removeLayer(roofLayer); } catch {}
         roofLayer = null;
       }
       clearStored();
@@ -1341,13 +1431,15 @@
 
     map.on('pm:create', (e) => {
       if (e.shape !== 'Polygon') return;
-      if (roofLayer) map.removeLayer(roofLayer);
+      if (roofLayer) try { map.removeLayer(roofLayer); } catch {}
       roofLayer = e.layer;
       roofLayer.setStyle(polyStyle);
       map.pm.disableDraw('Polygon');
+
       roofLayer.pm.enable({ allowSelfIntersection:false, snappable:true, snapDistance:15 });
       roofLayer.on('pm:edit', updateArea);
       roofLayer.on('pm:drag', updateArea);
+
       updateArea();
       hint("✅ Tejado marcado. Puedes ajustar los puntos.");
     });
@@ -1379,10 +1471,12 @@
           (pos) => {
             const { latitude, longitude } = pos.coords;
             map.setView([latitude, longitude], 20);
-            if (userMarker) map.removeLayer(userMarker);
+            if (userMarker) try { map.removeLayer(userMarker); } catch {}
             userMarker = L.circleMarker([latitude, longitude], { radius: 7, weight: 2 }).addTo(map);
-            $('sc_lat').value = latitude;
-            $('sc_lng').value = longitude;
+
+            const latEl = $('sc_lat'); if (latEl) latEl.value = String(latitude);
+            const lngEl = $('sc_lng'); if (lngEl) lngEl.value = String(longitude);
+
             startDrawing();
           },
           () => hint("No se pudo obtener la ubicación (requiere HTTPS o localhost)")
@@ -1399,83 +1493,66 @@
     };
 
     const showSuggest = (items) => {
-  if (!suggest) return;
-  if (!items.length) return hideSuggest();
+      if (!suggest) return;
+      if (!items.length) return hideSuggest();
 
-  const niceTitle = (r) => {
-    const a = r.address || {};
-    const road = a.road || a.pedestrian || a.footway || a.path || "";
-    const house = a.house_number ? ` ${a.house_number}` : "";
-    const place = a.city || a.town || a.village || a.municipality || a.county || "";
-    const prov  = a.state || "";
-    const title = `${road}${house}`.trim() || (r.display_name || "").split(",")[0];
-    const sub   = [place, prov].filter(Boolean).join(" · ");
-    return { title, sub };
-  };
+      const niceTitle = (r) => {
+        const a = r.address || {};
+        const road = a.road || a.pedestrian || a.footway || a.path || "";
+        const house = a.house_number ? ` ${a.house_number}` : "";
+        const place = a.city || a.town || a.village || a.municipality || a.county || "";
+        const prov  = a.state || "";
+        const title = `${road}${house}`.trim() || (r.display_name || "").split(",")[0];
+        const sub   = [place, prov].filter(Boolean).join(" · ");
+        return { title, sub };
+      };
 
-  suggest.innerHTML = items.map((r, i) => {
-    const { title, sub } = niceTitle(r);
-    return `
-      <button type="button" data-i="${i}" class="w-full px-4 py-3 text-left hover:bg-slate-50">
-        <div class="font-bold text-slate-900">${title}</div>
-        <div class="text-xs text-slate-600">${sub || (r.display_name || "")}</div>
-      </button>
-    `;
-  }).join("");
+      suggest.innerHTML = items.map((r, i) => {
+        const { title, sub } = niceTitle(r);
+        return `
+          <button type="button" data-i="${i}" class="w-full px-4 py-3 text-left hover:bg-slate-50">
+            <div class="font-bold text-slate-900">${title}</div>
+            <div class="text-xs text-slate-600">${sub || (r.display_name || "")}</div>
+          </button>
+        `;
+      }).join("");
 
-  suggest.classList.remove('hidden');
-};
+      suggest.classList.remove('hidden');
+    };
 
-  // Normaliza búsquedas tipo:
-// "calle jurel bloque 4 segundo b Chipiona" -> "calle jurel Chipiona"
-// (Nominatim suele ignorar bloque/portal/escalera/piso/letra)
-const normalizeESQuery = (q) => {
-  let s = (q || "").trim();
-  if (!s) return s;
+    const normalizeESQuery = (q) => {
+      let s = (q || "").trim();
+      if (!s) return s;
+      s = s.replace(/\s+/g, " ");
+      s = s.replace(
+        /\b(bloque|blq|portal|port|escalera|esc|piso|planta|letra|bajo|principal|ático|1º|2º|3º|4º|5º|6º|7º|8º|9º|10º|primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno|décimo)\b\.?\s*[a-z0-9ºª\-]*/gi,
+        " "
+      );
+      s = s.replace(/\s+/g, " ").trim();
+      return s;
+    };
 
-  // espacios limpios
-  s = s.replace(/\s+/g, " ");
+    const searchES = async (q) => {
+      const cleaned = normalizeESQuery(q);
+      const q2 = /,\s*españa/i.test(cleaned) ? cleaned : `${cleaned}, España`;
 
-  // elimina tokens típicos de bloques/pisos/escaleras + su posible número/letra
-  s = s.replace(
-    /\b(bloque|blq|portal|port|escalera|esc|piso|planta|letra|bajo|principal|ático|1º|2º|3º|4º|5º|6º|7º|8º|9º|10º|primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno|décimo)\b\.?\s*[a-z0-9ºª\-]*/gi,
-    " "
-  );
+      const params = new URLSearchParams({
+        format: "jsonv2",
+        limit: "10",
+        q: q2,
+        countrycodes: "es",
+        addressdetails: "1",
+        "accept-language": "es",
+        extratags: "1",
+        namedetails: "1",
+        dedupe: "0",
+      });
 
-  // vuelve a compactar espacios
-  s = s.replace(/\s+/g, " ").trim();
-
-  return s;
-};
-
-const searchES = async (q) => {
-  const cleaned = normalizeESQuery(q);
-
-  const q2 = /,\s*españa/i.test(cleaned) ? cleaned : `${cleaned}, España`;
-
-  const params = new URLSearchParams({
-    format: "jsonv2",
-    limit: "10",
-    q: q2,
-    countrycodes: "es",
-    addressdetails: "1",
-    "accept-language": "es",
-    extratags: "1",
-    namedetails: "1",
-    dedupe: "0",
-  });
-
-  const url = `https://nominatim.openstreetmap.org/search?${params.toString()}`;
-
-  const res = await fetch(url, {
-    headers: {
-      "Accept": "application/json"
-    }
-  });
-
-  if (!res.ok) throw new Error(`Nominatim HTTP ${res.status}`);
-  return await res.json();
-};
+      const url = `https://nominatim.openstreetmap.org/search?${params.toString()}`;
+      const res = await fetch(url, { headers: { "Accept": "application/json" } });
+      if (!res.ok) throw new Error(`Nominatim HTTP ${res.status}`);
+      return await res.json();
+    };
 
     if (addr) {
       addr.addEventListener('input', () => {
@@ -1536,7 +1613,7 @@ const searchES = async (q) => {
       btnNext.addEventListener('click', () => {
         if (stepMapWrap) stepMapWrap.classList.add('hidden');
         if (stepBill) stepBill.classList.remove('hidden');
-        stepBill.scrollIntoView({ behavior: 'smooth' });
+        stepBill?.scrollIntoView({ behavior: 'smooth' });
       });
     }
 
@@ -1561,18 +1638,14 @@ const loadingText = document.getElementById('scLoadingText');
 const money = (n) => Math.round(Number(n) || 0).toLocaleString('es-ES');
 
 const parseBill = (v) => {
-  // v: "0-50", "50-100", "100-150", "150-200", "200+", "no-se"
   if (!v) return null;
-  if (v === 'no-se') return 100; // fallback
+  if (v === 'no-se') return 100;
   if (v.includes('+')) return 220;
   const [a,b] = v.split('-').map(Number);
   if (!isFinite(a) || !isFinite(b)) return 100;
   return (a + b) / 2;
 };
 
-// =========================
-// CONFIG estilo Massol (packs)
-// =========================
 const SC_CONFIG = {
   precioKwh: 0.25,
   kwhPorKwpAlAno: 1500,
@@ -1590,10 +1663,8 @@ const SC_CONFIG = {
   ]
 };
 
-// Estimación estilo Massol (packs + consumo por gasto)
 const calcEstimation = ({ areaM2, billMonthly }) => {
   const usableM2 = Math.max(0, (Number(areaM2) || 0) * 0.70);
-
   const panelesMax = Math.max(0, Math.floor(usableM2 / SC_CONFIG.m2PorPanel));
 
   const gasto = Math.max(10, Number(billMonthly) || 100);
@@ -1654,7 +1725,6 @@ const setProgress = (pct, msg) => {
   if (loadingText && msg) loadingText.textContent = msg;
 };
 
-// ✅ helper para ocultar todo lo anterior cuando estás en loading/result
 const hideAllStepsBefore = () => {
   const ids = ['sc-step-housing','sc-step-map','sc-step-bill','sc-step-lead'];
   ids.forEach(id => document.getElementById(id)?.classList.add('hidden'));
@@ -1664,17 +1734,15 @@ if (leadForm) {
   leadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // mostrar loading y ocultar todo lo anterior (evita “ver el paso anterior arriba”)
     hideAllStepsBefore();
     if (stepResult) stepResult.classList.add('hidden');
     if (stepLoading) stepLoading.classList.remove('hidden');
-    stepLoading.scrollIntoView({ behavior: 'smooth' });
+    stepLoading?.scrollIntoView({ behavior: 'smooth' });
 
     setProgress(18, 'Enviando datos…');
 
     try {
       const formData = new FormData(leadForm);
-
       const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
       await fetch(leadForm.action || window.location.href, {
@@ -1706,16 +1774,12 @@ if (leadForm) {
       if (elMax)   elMax.textContent = money(out.priceMax);
       if (elSave)  elSave.textContent = money(out.saveYear);
 
-      // opcionales (si existen en tu HTML)
       const elCoverage = document.getElementById('resCoverage');
       const elInverter = document.getElementById('resInverter');
       if (elCoverage) elCoverage.textContent = out.coveragePct;
       if (elInverter) elInverter.textContent = out.inverter;
 
-      /* =========================================================
-         ✅ AÑADIDO: rellenar "Datos de tu vivienda" + barra + pack
-         (sin tocar lo demás)
-      ========================================================= */
+      // ✅ Datos vivienda
       const elArea = document.getElementById('resArea');
       const elBill = document.getElementById('resBill');
 
@@ -1730,8 +1794,6 @@ if (leadForm) {
         '200+': '200+',
         'no-se': '—'
       };
-
-      // mostramos rango si existe; si no, mostramos media
       if (elBill) elBill.textContent = billLabelMap[billRaw] || money(billMonthly);
 
       const elCoverageBar = document.getElementById('resCoverageBar');
@@ -1745,14 +1807,13 @@ if (leadForm) {
         };
         elPack.textContent = prettyPack(out.packId);
       }
-      /* ========================================================= */
 
       setProgress(100, 'Listo ✅');
       await new Promise(r => setTimeout(r, 300));
 
       if (stepLoading) stepLoading.classList.add('hidden');
       if (stepResult) stepResult.classList.remove('hidden');
-      stepResult.scrollIntoView({ behavior: 'smooth' });
+      stepResult?.scrollIntoView({ behavior: 'smooth' });
 
     } catch (err) {
       console.error(err);
@@ -1762,6 +1823,11 @@ if (leadForm) {
     }
   });
 }
+
+
+// =========================================================
+// RESULT: botones volver / recalcular
+// =========================================================
 (() => {
   const $ = (id) => document.getElementById(id);
 
@@ -1777,37 +1843,21 @@ if (leadForm) {
   const stepLead    = $('sc-step-lead');
   const stepResult  = $('sc-step-result');
 
-  // -----------------------------
-  // Volver al inicio
-  // -----------------------------
   if (btnHome) {
     btnHome.addEventListener('click', (e) => {
       e.preventDefault();
-
       document.body.classList.remove('sc-calc-full');
-
       if (calcSection) calcSection.classList.add('hidden');
-
-      if (hero) hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      hero?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
 
-  // -----------------------------
-  // Recalcular (reset limpio)
-  // -----------------------------
   if (btnRecalc) {
     btnRecalc.addEventListener('click', () => {
+      [stepMap, stepBill, stepLead, stepResult].forEach(s => s?.classList.add('hidden'));
+      stepHousing?.classList.remove('hidden');
+      stepHousing?.scrollIntoView({ behavior: 'smooth' });
 
-      // Ocultamos todos los pasos
-      [stepMap, stepBill, stepLead, stepResult].forEach(s => {
-        if (s) s.classList.add('hidden');
-      });
-
-      // Volvemos al paso 1
-      if (stepHousing) stepHousing.classList.remove('hidden');
-      stepHousing.scrollIntoView({ behavior: 'smooth' });
-
-      // Reset inputs ocultos
       [
         'sc_housing_type',
         'sc_area_m2',
@@ -1820,66 +1870,58 @@ if (leadForm) {
         if (el) el.value = '';
       });
 
-      // Reset selecciones visuales
-      document.querySelectorAll('.is-selected')
-        .forEach(el => el.classList.remove('is-selected'));
+      document.querySelectorAll('.is-selected').forEach(el => el.classList.remove('is-selected'));
 
-      // Reset botones continuar
       const housingBtn = $('housingContinueBtn');
       const billBtn    = $('billContinueBtn');
       if (housingBtn) housingBtn.disabled = true;
       if (billBtn) billBtn.disabled = true;
 
-      // Reset mapa si existe
       if (window.__scLeafletMap) {
         setTimeout(() => window.__scLeafletMap.invalidateSize(true), 100);
       }
     });
   }
-
 })();
+
 (() => {
   const $ = (id) => document.getElementById(id);
 
   const enterSeo = $('enterSeo');
   const exitSeo  = $('exitSeo');
   const seoSection = $('seo');
-
   const hero = $('presentacion');
+  const seoScroll = $('seoScroll');
 
   const showSeo = () => {
     if (!seoSection) return;
 
     document.body.classList.remove('sc-calc-full');
-    $('calculadora')?.classList.add('hidden');
+    document.getElementById('calculadora')?.classList.add('hidden');
 
     document.body.classList.add('sc-seo-full');
     seoSection.classList.remove('hidden');
 
-    seoSection.scrollIntoView({ behavior: 'instant', block: 'start' });
+    seoScroll?.scrollTo({ top: 0, behavior: 'auto' });
   };
 
   const hideSeo = () => {
-    if (!seoSection) return;
+    seoSection?.classList.add('hidden');
     document.body.classList.remove('sc-seo-full');
-    seoSection.classList.add('hidden');
     hero?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   enterSeo?.addEventListener('click', showSeo);
   exitSeo?.addEventListener('click', hideSeo);
 
-  // ESC cierra lo que esté abierto
   document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-
-    if (document.body.classList.contains('sc-seo-full')) {
-      hideSeo();
-      return;
-    }
+    if (e.key === 'Escape' && !seoSection?.classList.contains('hidden')) hideSeo();
   });
 })();
+
+
 </script>
+
 
 
 
