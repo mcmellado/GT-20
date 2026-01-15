@@ -3,6 +3,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Calculadora de placas solares | Precio orientativo en 1 minuto</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Calcula el precio orientativo de tu instalación de placas solares en 1 minuto." />
@@ -690,8 +691,8 @@
         </p>
     </div>
 
-      <form id="leadForm" class="mt-8 grid gap-4 sm:grid-cols-2" method="POST" action="#">
-        {{-- @csrf --}}
+      <form id="leadForm" method="POST" action="{{ route('lead.store') }}" class="mt-8 grid gap-4 sm:grid-cols-2">
+        @csrf
 
         <div class="sm:col-span-2 text-left">
           <label for="lead_name" class="block text-sm font-bold text-slate-900">Nombre</label>
