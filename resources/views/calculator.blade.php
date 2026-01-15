@@ -1100,7 +1100,9 @@
 <script>
 /* =========================================================
    CALCULADORA + MAPA + LEAD + LOADING + RESULT
-   (corregido: errores de sintaxis + behavior instant + null guards)
+   (mejorado: geocoding con reintentos para polígonos)
+   - Si la dirección es tipo "Polígono ... nº 57" y Nominatim no la pilla,
+     prueba variantes automáticamente (sin nº, con "Polígono Industrial", etc.)
 ========================================================= */
 
 (() => {
@@ -1127,7 +1129,7 @@
     if (stepMapWrap) stepMapWrap.classList.add('hidden');
     if (stepBill)    stepBill.classList.add('hidden');
 
-    // ✅ por si venías de lead/loading/result, los ocultamos aquí también
+    // por si venías de lead/loading/result, los ocultamos aquí también
     const stepLead = $('sc-step-lead');
     const stepLoading = $('sc-step-loading');
     const stepResult = $('sc-step-result');
@@ -1135,7 +1137,6 @@
     if (stepLoading) stepLoading.classList.add('hidden');
     if (stepResult) stepResult.classList.add('hidden');
 
-    // 'instant' NO es válido. Usamos 'auto'
     calcSection.scrollIntoView({ behavior: 'auto', block: 'start' });
 
     setTimeout(() => {
@@ -1484,7 +1485,9 @@
       });
     }
 
-    // Nominatim ES
+    // =========================
+    // NOMINATIM ES (mejorado con variantes)
+    // =========================
     let last = [];
     let deb = null;
 
@@ -1524,16 +1527,70 @@
       let s = (q || "").trim();
       if (!s) return s;
       s = s.replace(/\s+/g, " ");
+
+      // quita cosas típicas de pisos/portales (ya lo tenías)
       s = s.replace(
         /\b(bloque|blq|portal|port|escalera|esc|piso|planta|letra|bajo|principal|ático|1º|2º|3º|4º|5º|6º|7º|8º|9º|10º|primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno|décimo)\b\.?\s*[a-z0-9ºª\-]*/gi,
         " "
       );
+
+      // quita “número / nº / no.” que en polígonos suele estorbar
+      s = s.replace(/\b(n[uú]mero|nº|no\.?)\b/gi, " ");
+
       s = s.replace(/\s+/g, " ").trim();
       return s;
     };
 
-    const searchES = async (q) => {
+    const buildQueryVariants = (q) => {
+      const raw = (q || "").trim();
+      if (!raw) return [];
+
+      const base = normalizeESQuery(raw);
+      const looksLikePoligono =
+        /\bpol[ií]gono\b/i.test(raw) ||
+        /\bp\.?\s*i\.?\b/i.test(raw) ||
+        /\bpoligono\b/i.test(raw);
+
+      // saca un número “suelo” (57)
+      const mNum = base.match(/\b(\d{1,5})\b/);
+      const num = mNum ? mNum[1] : null;
+
+      const withoutNum = num
+        ? base.replace(new RegExp(`\\b${num}\\b`), " ").replace(/\s+/g, " ").trim()
+        : base;
+
+      const variants = [];
+
+      // 1) base
+      variants.push(base);
+
+      // 2) sin número (a menudo ayuda mucho en polígonos)
+      if (withoutNum && withoutNum !== base) variants.push(withoutNum);
+
+      // 3) Si pone “Polígono”, prueba “Polígono Industrial”
+      if (looksLikePoligono) {
+        variants.push(base.replace(/\bpol[ií]gono\b/gi, "Polígono Industrial"));
+        if (withoutNum) variants.push(withoutNum.replace(/\bpol[ií]gono\b/gi, "Polígono Industrial"));
+      }
+
+      // 4) Variante “sin palabras típicas de nave/parcela”
+      const stripped = base
+        .replace(/\b(nave|parcela)\b/gi, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (stripped && stripped !== base) variants.push(stripped);
+
+      // 5) Variante “polígono, nº”
+      if (looksLikePoligono && num && withoutNum) variants.push(`${withoutNum}, ${num}`);
+
+      // añade “España” luego en fetch, aquí solo dedup
+      return [...new Set(variants.filter(Boolean))];
+    };
+
+    const fetchNominatim = async (q) => {
       const cleaned = normalizeESQuery(q);
+      if (!cleaned) return [];
+
       const q2 = /,\s*españa/i.test(cleaned) ? cleaned : `${cleaned}, España`;
 
       const params = new URLSearchParams({
@@ -1543,15 +1600,28 @@
         countrycodes: "es",
         addressdetails: "1",
         "accept-language": "es",
-        extratags: "1",
-        namedetails: "1",
         dedupe: "0",
       });
 
       const url = `https://nominatim.openstreetmap.org/search?${params.toString()}`;
-      const res = await fetch(url, { headers: { "Accept": "application/json" } });
+      const res = await fetch(url, {
+        headers: { "Accept": "application/json" },
+        cache: "force-cache"
+      });
       if (!res.ok) throw new Error(`Nominatim HTTP ${res.status}`);
       return await res.json();
+    };
+
+    const searchES = async (q) => {
+      const variants = buildQueryVariants(q);
+
+      for (const v of variants) {
+        const data = await fetchNominatim(v);
+        const filtered = (data || []).filter(x => x.address && x.address.country_code === "es");
+        if (filtered.length) return filtered;
+      }
+
+      return [];
     };
 
     if (addr) {
@@ -1559,10 +1629,10 @@
         clearTimeout(deb);
         const q = addr.value.trim();
         if (q.length < 3) return hideSuggest();
+
         deb = setTimeout(async () => {
           try {
             last = await searchES(q);
-            last = (last || []).filter(x => x.address && x.address.country_code === "es");
             showSuggest(last);
           } catch (e) {
             console.error(e);
@@ -1576,9 +1646,13 @@
         e.preventDefault();
         const q = addr.value.trim();
         if (!q) return;
+
         try {
           const data = await searchES(q);
-          if (!data.length) return hint("No se encontró la dirección en España");
+          if (!data.length) {
+            hint("No se encontró. Prueba añadiendo municipio/provincia (ej: ... Sevilla).");
+            return;
+          }
           const r = data[0];
           map.setView([Number(r.lat), Number(r.lon)], 20);
           hideSuggest();
@@ -1779,7 +1853,7 @@ if (leadForm) {
       if (elCoverage) elCoverage.textContent = out.coveragePct;
       if (elInverter) elInverter.textContent = out.inverter;
 
-      // ✅ Datos vivienda
+      // Datos vivienda
       const elArea = document.getElementById('resArea');
       const elBill = document.getElementById('resBill');
 
@@ -1823,7 +1897,6 @@ if (leadForm) {
     }
   });
 }
-
 
 // =========================================================
 // RESULT: botones volver / recalcular
@@ -1884,6 +1957,9 @@ if (leadForm) {
   }
 })();
 
+// =========================================================
+// SEO modal: abrir/cerrar
+// =========================================================
 (() => {
   const $ = (id) => document.getElementById(id);
 
@@ -1918,11 +1994,7 @@ if (leadForm) {
     if (e.key === 'Escape' && !seoSection?.classList.contains('hidden')) hideSeo();
   });
 })();
-
-
 </script>
-
-
 
 
 </body>
